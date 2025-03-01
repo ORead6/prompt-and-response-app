@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { motion, AnimatePresence } from "framer-motion";
+import NoPromptsCard from "@/components/ui/EmptyPromptPlaceholder";
 
 const PromptPage = () => {
   // Form state
@@ -13,7 +14,7 @@ const PromptPage = () => {
   const [body, setBody] = useState("");
 
   // Will Eventually get Prompts from API
-  const retrievedPrompts = [1];
+  const retrievedPrompts = [];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,7 +109,7 @@ const PromptPage = () => {
         {/* Content where Prompts will be */}
         <div className="rounded-lg border p-8 text-center text-muted-foreground">
           {retrievedPrompts.length === 0 ? (
-            <p>No prompts available</p>
+            <NoPromptsCard />
           ) : (
             <p>Available Prompts</p>
           )}

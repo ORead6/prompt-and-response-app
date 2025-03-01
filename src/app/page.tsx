@@ -3,8 +3,14 @@
 import React from "react";
 import { motion } from "framer-motion";
 import ThemeSwitch from "@/components/ui/themeSwitch";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Space } from "lucide-react";
 
 const LandingPage: React.FC = () => {
+  // Setup router for navigation
+  const router = useRouter();
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white dark:bg-gray-900 transition-colors duration-300">
       <ThemeSwitch />
@@ -31,6 +37,21 @@ const LandingPage: React.FC = () => {
         >
           Made by Owen Read
         </motion.h2>
+
+        <div className="pt-[40px]">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <Button
+              className="px-6 py-3 text-lg"
+              onClick={() => router.push("/prompts")}
+            >
+              Go to Main App
+            </Button>
+          </motion.div>
+        </div>
       </motion.div>
     </div>
   );

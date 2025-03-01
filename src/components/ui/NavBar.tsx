@@ -1,6 +1,6 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import ThemeSwitch from "@/components/ui/themeSwitch"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import ThemeSwitch from "@/components/ui/themeSwitch";
 
 export function NavBar() {
   return (
@@ -21,12 +21,6 @@ export function NavBar() {
           >
             Prompts
           </Link>
-          <Link
-            href="/about"
-            className="text-sm font-medium transition-colors hover:text-primary"
-          >
-            About
-          </Link>
         </div>
 
         {/* Right section - Theme Toggle & Login */}
@@ -38,5 +32,5 @@ export function NavBar() {
         </div>
       </div>
     </nav>
-  )
+  );
 }
