@@ -6,7 +6,6 @@ import ThemeSwitch from "@/components/ui/themeSwitch";
 
 const LandingPage: React.FC = () => {
   return (
-    
     <div className="min-h-screen flex flex-col items-center justify-center bg-white dark:bg-gray-900 transition-colors duration-300">
       <ThemeSwitch />
       <motion.div

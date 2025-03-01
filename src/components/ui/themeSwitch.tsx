@@ -34,7 +34,7 @@ export default function ThemeSwitch() {
     );
   else {
     return (
-      <div className="fixed top-4 right-4 flex items-center space-x-2">
+      <div className="flex items-center space-x-2">
         <Sun className="h-5 w-5 text-gray-400 dark:text-gray-500" />
         <Switch
           checked={resolvedTheme === "dark"}
