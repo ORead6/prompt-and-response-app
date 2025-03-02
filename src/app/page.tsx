@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import ThemeSwitch from "@/components/ui/themeSwitch";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Space } from "lucide-react";
 
 const LandingPage: React.FC = () => {
   // Setup router for navigation
