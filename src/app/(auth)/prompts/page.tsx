@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import NoPromptsCard from "@/components/ui/EmptyPromptPlaceholder";
+import NoPromptsCard from "@/components/EmptyPromptPlaceholder";
 import { useRouter } from "next/navigation";
 
 const PromptPage = () => {

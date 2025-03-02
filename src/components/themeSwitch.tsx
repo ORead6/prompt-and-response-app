@@ -4,7 +4,7 @@ import { Sun, Moon } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import { Switch } from "./switch";
+import { Switch } from "@/components/ui/switch";
 
 export default function ThemeSwitch() {
   const [mounted, setMounted] = useState(false);

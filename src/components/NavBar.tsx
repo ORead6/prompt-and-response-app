@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import ThemeSwitch from "@/components/ui/themeSwitch";
+import ThemeSwitch from "@/components/themeSwitch";
 
 export function NavBar() {
   return (

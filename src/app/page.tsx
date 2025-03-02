@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import ThemeSwitch from "@/components/ui/themeSwitch";
+import ThemeSwitch from "@/components/themeSwitch";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
