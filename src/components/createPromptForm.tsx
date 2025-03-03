@@ -1,13 +1,58 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const CreatePromptForm = ({ maxLength }: { maxLength: number }) => {
   const [title, setTitle] = useState("");
   const [prompt, setPrompt] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate title
+    if (!title.trim()) {
+      alert("Title is required");
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    // Create the prompt using API Route
+    try {
+      const response = await fetch("/api/createPrompt", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },  
+        body: JSON.stringify({
+          title: title.trim(),
+          prompt: prompt.trim() || null,
+          author: null, // Will be updated when auth is implemented
+        }),
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        // Redirect to prompts page after successful creation
+        router.push("/prompts");
+      } else {
+        alert(`Error: ${data.error || "Failed to create prompt"}`);
+      }
+    } catch (error) {
+      console.error("Error creating prompt:", error);
+      alert("An error occurred while creating the prompt");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
-    <form className="flex flex-col space-y-4">
+    <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
       {/* Title input with character counter */}
       <div className="relative">
         <input
@@ -20,6 +65,7 @@ const CreatePromptForm = ({ maxLength }: { maxLength: number }) => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           maxLength={maxLength}
+          required
         />
         <div
           className={`absolute bottom-3 right-4 text-sm ${
@@ -45,9 +91,13 @@ const CreatePromptForm = ({ maxLength }: { maxLength: number }) => {
       />
       <div className="flex justify-end">
         {/* Create Prompt Button */}
-        <Button className="bg-primary hover:bg-primary/90 px-8">
-          Create Prompt
-          <Plus />
+        <Button 
+          type="submit" 
+          className="bg-primary hover:bg-primary/90 px-8"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Creating..." : "Create Prompt"}
+          {!isSubmitting && <Plus />}
         </Button>
       </div>
     </form>

@@ -11,6 +11,7 @@ interface RequestData {
 
 // API Response
 // Allow for null prompt and author
+// Allow for null author as this is for user auth 
 interface ResponseData {
   success: boolean;
   data?: {
