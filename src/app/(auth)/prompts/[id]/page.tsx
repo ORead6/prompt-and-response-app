@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { formatDistanceToNow } from 'date-fns';
+import ResponseBox from '@/components/responseBox';
+import Editor from '@/components/Editor';
 
 const PromptViewer = () => {
     // Get Prompt ID from URL
@@ -75,7 +77,7 @@ const PromptViewer = () => {
                 </Button>
             </div>
 
-            <Card className="border shadow-sm">
+            <Card className="border-none shadow-sm">
                 <CardHeader>
                     {/* Skeleton for loading prompt */}
                     {isLoading ? (
@@ -113,6 +115,7 @@ const PromptViewer = () => {
                     )}
                 </CardContent>
             </Card>
+            <Editor />
         </div>
     );
 }
