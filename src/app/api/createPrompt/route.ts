@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     const supabase = await createClient();
 
     const { data, error: sessionError } = await supabase.auth.getSession();
-    
+
     if (sessionError) {
       return NextResponse.json(
         { success: false, error: sessionError.message },
@@ -57,6 +57,19 @@ export async function POST(req: NextRequest) {
     // Get UUID from session
     const userID = data.session?.user.id;
 
+    // Get Username from supabase profiles
+    const { data: profileData, error: profileError } = await supabase
+      .from("profiles")
+      .select("username")
+      .eq("id", userID);
+
+    if (profileError) {
+      return NextResponse.json(
+        { success: false, error: profileError.message },
+        { status: 500 }
+      );
+    }
+
     // Gen Prompt UUID
     const promptID = uuid();
 
@@ -65,7 +78,7 @@ export async function POST(req: NextRequest) {
       id: promptID,
       title: body.title,
       prompt: body.prompt,
-      author: userID,
+      author: profileData[0].username,
     };
 
     // Insert Prompt into Supabase

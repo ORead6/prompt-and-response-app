@@ -47,7 +47,6 @@ const PromptPage = () => {
 
       // Get the response data
       const responseData = await response.json();
-      console.log("API Response:", responseData);
 
       // Extract the prompts array from the response
       const prompts = responseData.prompts || [];

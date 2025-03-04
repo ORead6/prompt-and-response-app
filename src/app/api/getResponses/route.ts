@@ -33,10 +33,11 @@ export async function POST(req: NextRequest) {
             );
         }
 
+
         // Return success response
         return NextResponse.json({
             success: true,
-            responses: data
+            responses: data,
         }, { status: 200 });
 
     } catch (error) {

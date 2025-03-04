@@ -14,6 +14,7 @@ interface ResponseData {
         title?: string;
         prompt?: string;
         [key: string]: any;
+        author: string;
     };
 }
 

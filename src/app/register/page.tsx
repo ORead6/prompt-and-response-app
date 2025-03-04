@@ -42,23 +42,13 @@ export default function RegisterPage() {
             password: password,
         })
 
-        // Add user profile to profiles table
-        const { data:profileData, error:profileError } = await supabase.from('profiles').insert([
-            {
-                id: data?.user?.id,
-                username: username,
-                email: email,
-                created_at: new Date()
-            }
-        ])
-
         // Handle error
-        if (!error && !profileError) {
+        if (!error) {
             setIsLoading(false);
             redirect("/prompts");
         } else {
             setIsLoading(false)
-            console.log(error, profileError)
+            console.log(error)
         }
     };
 

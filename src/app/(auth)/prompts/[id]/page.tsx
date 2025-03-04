@@ -90,7 +90,6 @@ const PromptViewer = () => {
 
             // Get the response data
             const responseData = await response.json();
-            console.log("Responses API Response:", responseData);
 
             // Extract the responses array from the response
             const newResponses = responseData.responses || [];
