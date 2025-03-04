@@ -10,9 +10,8 @@ export default function LoadState() {
   // FETCH FROM DB OR LOCAL STORE
   useEffect(() => {
     // VALUE TO PASS IN ->GET FROM DB
-    const newState = editor.parseEditorState(text);
-    editor.setEditorState(newState);
-    editor.setEditable(true);
+    // const newState = editor.parseEditorState(text);
+    // editor.setEditorState(newState);
   }, []);
 
   return <div></div>;
