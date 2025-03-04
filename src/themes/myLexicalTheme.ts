@@ -4,6 +4,7 @@ export const myLexicalTheme = {
       italic: 'italic',
       underline: 'underline',
       code: 'bg-gray-100 p-1 rounded font-mono text-sm',
+      strikethrough: 'line-through',
     },
     list: {
       ol: 'list-decimal pl-5',
