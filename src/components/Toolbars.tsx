@@ -35,6 +35,7 @@ const Toolbars = ({ creatingResponse = false, currPromptId = "" }: { creatingRes
   const [isStrikeThrough, setIsStrikeThrough] = useState(false);
   const [isOrderedList, setIsOrderedList] = useState(false);
   const [isUnorderedList, setIsUnorderedList] = useState(false);
+  const [isEditorEmpty, setIsEditorEmpty] = useState(true);
   const [richContent, setRichContent] = useState({});
   const [isHeading1, setIsHeading1] = useState(false);
   const [isHeading2, setIsHeading2] = useState(false);
@@ -92,6 +93,17 @@ const Toolbars = ({ creatingResponse = false, currPromptId = "" }: { creatingRes
       );
     }
   }, [editor]);
+
+  useEffect(() => {
+    // Check if editor is empty in an effect instead of during render
+    const isEmpty = editor.read(() => {
+      const root = $getRoot();
+      const firstChild = root.getFirstChild();
+      return firstChild?.getTextContent() === '' && root.getChildrenSize() === 1;
+    });
+
+    setIsEditorEmpty(isEmpty);
+  }, [editor, richContent]);
 
   //   Change styling of text on button presses
   useEffect(() => {
@@ -215,14 +227,6 @@ const Toolbars = ({ creatingResponse = false, currPromptId = "" }: { creatingRes
     });
   };
 
-  const isEditorEmpty = editor.read(() => {
-    const root = $getRoot();
-    const firstChild = root.getFirstChild();
-    const isEmpty = firstChild?.getTextContent() === '' && root.getChildrenSize() === 1;
-  
-    return isEmpty;
-  });
-
   const handleCreateResponse = async () => {
     if (isEditorEmpty) {
       return;
@@ -254,6 +258,11 @@ const Toolbars = ({ creatingResponse = false, currPromptId = "" }: { creatingRes
           const paragraph = $createParagraphNode();
           root.append(paragraph);
         });
+
+        // Force a hard refresh of the page to show the new response
+        // This is more reliable than router.refresh() which may not re-fetch data
+        window.location.reload();
+
       } else {
         console.log(`Error: ${data.error || "Failed to create Response"}`);
       }

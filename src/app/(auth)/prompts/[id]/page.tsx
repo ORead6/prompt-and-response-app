@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from "next/navigation";
 import { ArrowLeft, Copy, Check, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { formatDistanceToNow } from 'date-fns';
 import ResponseBox from '@/components/responseBox';
 import Editor from '@/components/Editor';
 import ResponseCreator from '@/components/responseCreator';
+import ResponseViewer from '@/components/responseViewer';
 
 const PromptViewer = () => {
     // Get Prompt ID from URL
@@ -25,8 +26,14 @@ const PromptViewer = () => {
         author: ""
     });
     const [isLoading, setIsLoading] = useState(true);
+    const [responses, setResponses] = useState<any[]>([]);
+    const [page, setPage] = useState(0);
+    const [isLoadingResponses, setIsLoadingResponses] = useState(false);
+    const [hasMoreResponses, setHasMoreResponses] = useState(true);
+    const loadingRef = useRef(null);
 
     const promptID = params.id;
+    const PAGE_SIZE = 10; // Number of responses per page
 
     // Fetch Prompt Data
     const fetchPrompt = async () => {
@@ -59,10 +66,76 @@ const PromptViewer = () => {
         }
     };
 
+    // Fetch responses for the prompt
+    const fetchResponses = async () => {
+        if (isLoadingResponses || !hasMoreResponses) return;
+
+        setIsLoadingResponses(true);
+
+        try {
+            const response = await fetch("/api/getResponses", {
+                method: "POST",
+                body: JSON.stringify({
+                    promptId: promptID,
+                    page,
+                    page_size: PAGE_SIZE
+                })
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error(`Failed with status: ${response.status}`, errorText);
+                throw new Error(`Failed to fetch responses: ${response.status}`);
+            }
+
+            // Get the response data
+            const responseData = await response.json();
+            console.log("Responses API Response:", responseData);
+
+            // Extract the responses array from the response
+            const newResponses = responseData.responses || [];
+
+            if (newResponses.length < PAGE_SIZE) {
+                setHasMoreResponses(false);
+            }
+
+            // Add the new responses to the existing ones
+            setResponses(prevResponses => [...prevResponses, ...newResponses]);
+            setPage(prevPage => prevPage + 1);
+        } catch (error) {
+            console.error("Error fetching responses:", error);
+        } finally {
+            setIsLoadingResponses(false);
+        }
+    };
+
     // Fetch the prompt data on load
     useEffect(() => {
         fetchPrompt();
+        fetchResponses();
     }, []);
+
+    // Set up intersection observer for infinite scroll
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            entries => {
+                if (entries[0].isIntersecting) {
+                    fetchResponses();
+                }
+            },
+            { threshold: 1.0 }
+        );
+
+        if (loadingRef.current) {
+            observer.observe(loadingRef.current);
+        }
+
+        return () => {
+            if (loadingRef.current) {
+                observer.unobserve(loadingRef.current);
+            }
+        };
+    }, [page, isLoadingResponses, hasMoreResponses]);
 
     return (
         <div className="max-w-4xl mx-auto px-4 py-8">
@@ -116,7 +189,47 @@ const PromptViewer = () => {
                     )}
                 </CardContent>
             </Card>
-            <ResponseCreator promptID={promptID as string}/>
+
+            {/* Response Creator */}
+            <div className="mt-8 mb-8">
+                <h2 className="text-xl font-semibold mb-4">Create Response</h2>
+                <ResponseCreator promptID={promptID as string}/>
+            </div>
+
+            {/* Responses Section */}
+            <div className="mt-8">
+                <h2 className="text-xl font-semibold mb-4">Responses</h2>
+
+                {responses.length === 0 && !isLoadingResponses ? (
+                    <div className="rounded-lg border p-8 text-center text-muted-foreground">
+                        No responses yet. Be the first to respond!
+                    </div>
+                ) : (
+                    <div className="space-y-6">
+                        {responses.map((response, index) => (
+                            <div key={response.id} className="border rounded-lg p-4 shadow-sm">
+                                <div className="text-xs text-muted-foreground mb-2">
+                                    {formatDistanceToNow(new Date(response.created_at), { addSuffix: true })}
+                                </div>
+                                <ResponseViewer responseContent={response.content} />
+                            </div>
+                        ))}
+
+                        {/* Loading indicator */}
+                        {hasMoreResponses && (
+                            <div ref={loadingRef} className="py-4 text-center">
+                                {isLoadingResponses ? (
+                                    <div className="flex justify-center">
+                                        <div className="animate-spin h-5 w-5 border-2 border-primary border-t-transparent rounded-full"></div>
+                                    </div>
+                                ) : (
+                                    <div className="h-10"></div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
