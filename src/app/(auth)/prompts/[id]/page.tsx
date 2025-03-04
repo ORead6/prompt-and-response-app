@@ -197,7 +197,7 @@ const PromptViewer = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <div className="flex items-center mb-6">
+      <div className="flex items-center">
         {/* Back Button */}
         <Button
           onClick={() => router.push("/prompts")}
@@ -209,59 +209,61 @@ const PromptViewer = () => {
         </Button>
       </div>
 
-      <Card className="border-none shadow-none">
-        <CardHeader className="px-0">
-          {/* Skeleton for loading prompt */}
-          {isLoading ? (
-            <Skeleton className="h-8 w-3/4 mx-auto mb-2" />
-          ) : (
-            <div className="flex flex-col gap-1">
-              {/* Prompt Title */}
-              <div className="flex justify-between items-center">
-                <CardTitle className="text-2xl font-semibold">
-                  {promptData.title}
-                </CardTitle>
-              </div>
+      <Card className="border-none shadow-none py-4">
+        <div className="border-b pb-4">
+          <CardHeader className="px-0">
+            {/* Skeleton for loading prompt */}
+            {isLoading ? (
+              <Skeleton className="h-8 w-3/4 mx-auto mb-2" />
+            ) : (
+              <div className="flex flex-col gap-1">
+                {/* Prompt Title */}
+                <div className="flex justify-between items-center">
+                  <CardTitle className="text-3xl font-bold">
+                    {promptData.title}
+                  </CardTitle>
+                </div>
 
-              {/* Prompt Creation Time */}
-              <div className="text-xs text-muted-foreground">
-                {promptData.author}{" "}
-                {formatDistanceToNow(new Date(promptData.created_at), {
-                  addSuffix: true,
-                })}
+                {/* Prompt Creation Time */}
+                <div className="text-xs text-muted-foreground">
+                  {promptData.author}{" "}
+                  {formatDistanceToNow(new Date(promptData.created_at), {
+                    addSuffix: true,
+                  })}
+                </div>
               </div>
-            </div>
-          )}
-        </CardHeader>
+            )}
+          </CardHeader>
 
-        <CardContent className="px-0">
-          {/* Skeleton */}
-          {isLoading ? (
-            <>
-              <Skeleton className="h-6 w-full mb-2" />
-              <Skeleton className="h-6 w-full mb-2" />
-              <Skeleton className="h-6 w-3/4 mb-2" />
-              <Skeleton className="h-6 w-5/6 mb-2" />
-              <Skeleton className="h-6 w-full" />
-            </>
-          ) : (
-            // Prompt Content
-            <div className="rounded-lg whitespace-pre-wrap text-sm md:text-base leading-relaxed font-light">
-              {promptData.prompt}
-            </div>
-          )}
-        </CardContent>
+          <CardContent className="px-0">
+            {/* Skeleton */}
+            {isLoading ? (
+              <>
+                <Skeleton className="h-6 w-full mb-2" />
+                <Skeleton className="h-6 w-full mb-2" />
+                <Skeleton className="h-6 w-3/4 mb-2" />
+                <Skeleton className="h-6 w-5/6 mb-2" />
+                <Skeleton className="h-6 w-full" />
+              </>
+            ) : (
+              // Prompt Content
+              <div className="rounded-lg whitespace-pre-wrap text-sm md:text-base leading-relaxed font-light">
+                {promptData.prompt}
+              </div>
+            )}
+          </CardContent>
+        </div>
       </Card>
 
       {/* Response Creator */}
-      <div className="mt-8 mb-8">
-        <h2 className="text-xl font-semibold mb-4">Create Response</h2>
+      <div className="mt-0 mb-8">
+        <h2 className="text-2xl font-semibold">Create Response</h2>
         <ResponseCreator promptID={promptID as string} />
       </div>
 
       {/* Responses Section */}
       <div className="mt-8">
-        <h2 className="text-xl font-semibold mb-4">Responses</h2>
+        <h2 className="text-2xl font-semibold mb-4">Responses</h2>
 
         {responses.length === 0 && !isLoadingResponses ? (
           <div className="rounded-lg border border-dashed p-8 flex flex-col items-center justify-center gap-4 bg-muted/30">
