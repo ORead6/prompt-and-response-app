@@ -38,15 +38,15 @@ const ResponseCreator: React.FC<ResponseCreatorProps> = ({
 	};
 
 	return (
-		<div className={`max-w-4xl mx-auto rounded-lg overflow-hidden`}>
+		<div className={`max-w-4xl mx-auto rounded-md overflow-hidden`}>
 			<LexicalComposer initialConfig={initialConfig}>
 				<Toolbars currPromptId={promptID as string} />
-				<div className="px-4 min-h-[150px] overflow-y-auto relative border rounded-md py-2">
+				<div className="px-4 overflow-y-auto relative border rounded-md py-2">
 					<ListPlugin />
 					<RichTextPlugin
 						contentEditable={
 							<ContentEditable
-								className="focus:outline-none min-h-[100px] editor-content"
+								className="focus:outline-none editor-content"
 							/>
 						}
 						placeholder={

@@ -17,6 +17,7 @@ const CreatePromptForm = ({ maxLength }: { maxLength: number }) => {
     
     // Validate title
     if (!title.trim() || !prompt.trim()) {
+      alert("Title and prompt are required");
       return;
     }
     
@@ -85,9 +86,10 @@ const CreatePromptForm = ({ maxLength }: { maxLength: number }) => {
               transition-all duration-200
               bg-background text-foreground font-light
               min-h-[225px] resize-y"
-        placeholder="Prompt"
+        placeholder="Prompt*"
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
+        required
       />
       <div className="flex justify-end">
         {/* Create Prompt Button */}

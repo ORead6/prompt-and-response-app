@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     // Create Supabase Client
     const supabase = await createClient();
 
-    const { data, error: sessionError } = await supabase.auth.getSession();
+    const { data, error: sessionError } = await supabase.auth.getUser();
 
     if (sessionError) {
       return NextResponse.json(
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Check if user is authenticated
-    if (!data) {
+    if (!data.user) {
       return NextResponse.json(
         { success: false, error: "User is not authenticated" },
         { status: 401 }
@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
     const responseID = uuid();
 
     // Get User ID
-    const userID = data.session?.user.id;
+    const userID = data.user.id;
 
     // Get Username from supabase profiles
     const { data: profileData, error: profileError } = await supabase

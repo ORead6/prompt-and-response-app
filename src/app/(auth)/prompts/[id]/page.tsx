@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
-import { ArrowLeft, MessageSquare } from "lucide-react";
+import { ArrowLeft, MessageSquare, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -280,13 +280,25 @@ const PromptViewer = () => {
             {responses.map((response, index) => (
               <div
                 key={response.id}
-                className="border rounded-lg p-4 shadow-sm"
+                className="border rounded-lg p-4 shadow-sm dark:border-border/40 bg-card text-card-foreground"
               >
-                <div className="text-xs text-muted-foreground mb-2">
-                  {response.author || "Anonymous"} {formatDistanceToNow(new Date(response.created_at), {
-                    addSuffix: true,
-                  })}
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="size-8 rounded-full overflow-hidden flex items-center justify-center bg-primary/10 text-primary">
+                    <User size={16} />
+                  </div>
+                  <div className="text-sm flex items-center gap-2">
+                    <span className="font-medium text-foreground">
+                      {response.author}
+                    </span>
+                    <span className="text-muted-foreground text-xs">
+                      •{" "}
+                      {formatDistanceToNow(new Date(response.created_at), {
+                        addSuffix: true,
+                      })}
+                    </span>
+                  </div>
                 </div>
+
                 <ResponseViewer responseContent={response.content} />
               </div>
             ))}

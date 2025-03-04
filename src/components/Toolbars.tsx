@@ -235,6 +235,7 @@ const Toolbars = ({
 
   const handleCreateResponse = async () => {
     if (isEditorEmpty) {
+      alert("Response Cannot Be Empty")
       return;
     }
 
