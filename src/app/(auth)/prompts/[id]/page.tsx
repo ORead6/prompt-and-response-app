@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -209,13 +209,13 @@ const PromptViewer = () => {
         </Button>
       </div>
 
-      <Card className="border-none shadow-sm">
-        <CardHeader>
+      <Card className="border-none shadow-none">
+        <CardHeader className="px-0">
           {/* Skeleton for loading prompt */}
           {isLoading ? (
             <Skeleton className="h-8 w-3/4 mx-auto mb-2" />
           ) : (
-            <div>
+            <div className="flex flex-col gap-1">
               {/* Prompt Title */}
               <div className="flex justify-between items-center">
                 <CardTitle className="text-2xl font-semibold">
@@ -234,7 +234,7 @@ const PromptViewer = () => {
           )}
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="px-0">
           {/* Skeleton */}
           {isLoading ? (
             <>
@@ -264,8 +264,16 @@ const PromptViewer = () => {
         <h2 className="text-xl font-semibold mb-4">Responses</h2>
 
         {responses.length === 0 && !isLoadingResponses ? (
-          <div className="rounded-lg border p-8 text-center text-muted-foreground">
-            No responses yet. Be the first to respond!
+          <div className="rounded-lg border border-dashed p-8 flex flex-col items-center justify-center gap-4 bg-muted/30">
+            <div className="rounded-full bg-primary/10 p-3">
+              <MessageSquare className="h-8 w-8 text-primary/60" />
+            </div>
+            <div className="text-center">
+              <h3 className="font-medium text-base">No responses yet</h3>
+              <p className="text-sm text-muted-foreground mt-1">
+                Be the first to share your thoughts on this prompt!
+              </p>
+            </div>
           </div>
         ) : (
           <div className="space-y-6">
@@ -275,7 +283,7 @@ const PromptViewer = () => {
                 className="border rounded-lg p-4 shadow-sm"
               >
                 <div className="text-xs text-muted-foreground mb-2">
-                  {formatDistanceToNow(new Date(response.created_at), {
+                  {response.author || "Anonymous"} {formatDistanceToNow(new Date(response.created_at), {
                     addSuffix: true,
                   })}
                 </div>

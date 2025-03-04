@@ -38,7 +38,7 @@ const ResponseCreator: React.FC<ResponseCreatorProps> = ({
 	};
 
 	return (
-		<div className={`max-w-4xl mx-auto bg-card rounded-lg shadow-sm overflow-hidden`}>
+		<div className={`max-w-4xl mx-auto rounded-lg overflow-hidden`}>
 			<LexicalComposer initialConfig={initialConfig}>
 				<Toolbars currPromptId={promptID as string} />
 				<div className="px-4 min-h-[150px] overflow-y-auto relative border rounded-md py-2">

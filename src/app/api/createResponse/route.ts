@@ -58,12 +58,28 @@ export async function POST(req: NextRequest) {
     // Gen Prompt UUID
     const responseID = uuid();
 
+    // Get User ID
+    const userID = data.session?.user.id;
+
+    // Get Username from supabase profiles
+    const { data: profileData, error: profileError } = await supabase
+      .from("profiles")
+      .select("username")
+      .eq("id", userID);
+
+    if (profileError) {
+      return NextResponse.json(
+        { success: false, error: profileError.message },
+        { status: 500 }
+      );
+    }
+
     // Create response Object
     const responseData = {
       id: responseID,
       prompt_id: body.promptId,
       content: body.content as string,
-      author: body.author || null,
+      author: profileData[0].username,
     };
 
     // Insert Prompt into Supabase

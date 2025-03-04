@@ -284,7 +284,7 @@ const Toolbars = ({
   }
 
   return (
-    <div className="flex items-center p-2 pe-0 rounded-md shadow-sm space-x-1 overflow-x-auto">
+    <div className="flex items-center p-2 pe-0 shadow-none space-x-1 overflow-x-auto">
       <div className="flex-1 flex items-center">
         <div className="flex items-center space-x-1 border-r pr-1 mr-1">
           <button
