@@ -17,7 +17,6 @@ const CreatePromptForm = ({ maxLength }: { maxLength: number }) => {
     
     // Validate title
     if (!title.trim()) {
-      alert("Title is required");
       return;
     }
     
