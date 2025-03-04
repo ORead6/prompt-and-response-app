@@ -6,7 +6,6 @@ import { createClient } from "@/utils/supabase/server";
 interface RequestData {
   title: string;
   prompt: string | null;
-  author: string | null;
 }
 
 // API Response
@@ -38,6 +37,26 @@ export async function POST(req: NextRequest) {
     // Create Supabase Client
     const supabase = await createClient();
 
+    const { data, error: sessionError } = await supabase.auth.getSession();
+    
+    if (sessionError) {
+      return NextResponse.json(
+        { success: false, error: sessionError.message },
+        { status: 500 }
+      );
+    }
+
+    // Check if user is authenticated
+    if (!data) {
+      return NextResponse.json(
+        { success: false, error: "User is not authenticated" },
+        { status: 401 }
+      );
+    }
+
+    // Get UUID from session
+    const userID = data.session?.user.id;
+
     // Gen Prompt UUID
     const promptID = uuid();
 
@@ -46,7 +65,7 @@ export async function POST(req: NextRequest) {
       id: promptID,
       title: body.title,
       prompt: body.prompt,
-      author: body.author,
+      author: userID,
     };
 
     // Insert Prompt into Supabase
@@ -66,7 +85,7 @@ export async function POST(req: NextRequest) {
         id: promptID,
         title: body.title,
         prompt: body.prompt,
-        author: body.author,
+        author: userID!,
       },
     };
 

@@ -19,8 +19,9 @@ const PromptPage = () => {
   const router = useRouter();
   const [prompts, setPrompts] = useState<Prompt[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [initialFetchDone, setInitialFetchDone] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(-1);
   const loadingRef = useRef(null);
 
   const PAGE_SIZE = 10;
@@ -29,11 +30,13 @@ const PromptPage = () => {
     if (isLoading || !hasMore) return;
 
     setIsLoading(true);
+    const nextPage = page + 1;
+    setPage(nextPage);
 
     try {
       const response = await fetch("/api/getPrompts", {
         method: "POST",
-        body: JSON.stringify({ page, page_size: PAGE_SIZE })
+        body: JSON.stringify({ page: nextPage, page_size: PAGE_SIZE })
       });
 
       if (!response.ok) {
@@ -54,14 +57,24 @@ const PromptPage = () => {
       }
 
       // Add the new prompts to the existing ones
-      setPrompts(prevPrompts => [...prevPrompts, ...prompts]);
-      setPage(prevPage => prevPage + 1);
+      setPrompts(prevPrompts => {
+        const newPromptIds = new Set(prompts.map((p:any) => p.id));
+        const uniquePrevPrompts = prevPrompts.filter(p => !newPromptIds.has(p.id));
+        return [...uniquePrevPrompts, ...prompts];
+      });
     } catch (error) {
       console.error("Error fetching prompts:", error);
     } finally {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!initialFetchDone) {
+      fetchPrompts();
+      setInitialFetchDone(true);
+    }
+  }, [initialFetchDone]);
 
   // Set up intersection observer for infinite scroll
   useEffect(() => {
@@ -153,7 +166,7 @@ const PromptPage = () => {
           </div>
         )}
       </div>
-      
+
     </div>
   );
 };

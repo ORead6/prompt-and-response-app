@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -30,8 +32,7 @@ const CreatePromptForm = ({ maxLength }: { maxLength: number }) => {
         },  
         body: JSON.stringify({
           title: title.trim(),
-          prompt: prompt.trim() || null,
-          author: null, // Will be updated when auth is implemented
+          prompt: prompt.trim() || null
         }),
       });
       
