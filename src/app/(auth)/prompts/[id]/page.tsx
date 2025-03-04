@@ -10,6 +10,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/componen
 import { formatDistanceToNow } from 'date-fns';
 import ResponseBox from '@/components/responseBox';
 import Editor from '@/components/Editor';
+import ResponseCreator from '@/components/responseCreator';
 
 const PromptViewer = () => {
     // Get Prompt ID from URL
@@ -115,7 +116,7 @@ const PromptViewer = () => {
                     )}
                 </CardContent>
             </Card>
-            <Editor />
+            <ResponseCreator promptID={promptID as string}/>
         </div>
     );
 }
