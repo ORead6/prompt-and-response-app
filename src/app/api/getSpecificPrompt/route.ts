@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
     // Create Supabase Client
     const supabase = await createClient();
 
-    const { data, error: sessionError } = await supabase.auth.getSession();
+    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
 
     if (sessionError) {
       return NextResponse.json(
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Check if user is authenticated
-    if (!data) {
+    if (!sessionData) {
       return NextResponse.json(
         { success: false, error: "User is not authenticated" },
         { status: 401 }
