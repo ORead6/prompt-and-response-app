@@ -27,7 +27,13 @@ import { useRouter } from "next/navigation";
 
 const LowPriority = 1;
 
-const Toolbars = ({ creatingResponse = false, currPromptId = "" }: { creatingResponse?: boolean | false, currPromptId?: string | "" }) => {
+interface ToolbarsProps {
+  currPromptId?: string;
+}
+
+const Toolbars = ({
+  currPromptId = "",
+}: ToolbarsProps) => {
   const [editor] = useLexicalComposerContext();
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
@@ -259,10 +265,6 @@ const Toolbars = ({ creatingResponse = false, currPromptId = "" }: { creatingRes
           root.append(paragraph);
         });
 
-        // Force a hard refresh of the page to show the new response
-        // This is more reliable than router.refresh() which may not re-fetch data
-        window.location.reload();
-
       } else {
         console.log(`Error: ${data.error || "Failed to create Response"}`);
       }
@@ -391,9 +393,8 @@ const Toolbars = ({ creatingResponse = false, currPromptId = "" }: { creatingRes
             <Redo size={18} />
           </button>
         </div>
-      </div>
 
-      {creatingResponse && (
+
         <div className="ml-auto">
           <div className="flex items-center">
             <Button onClick={handleCreateResponse} variant={"outline"}>
@@ -402,7 +403,7 @@ const Toolbars = ({ creatingResponse = false, currPromptId = "" }: { creatingRes
             </Button>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

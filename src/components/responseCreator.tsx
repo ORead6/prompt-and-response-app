@@ -15,6 +15,10 @@ import { ParagraphNode } from "lexical";
 import { useEffect, useState } from "react";
 import { myLexicalTheme } from "@/themes/myLexicalTheme";
 
+type ResponseCreatorProps = {
+	promptID: string;
+};
+
 // Catch any errors that occur during Lexical updates and log them
 // or throw them as needed. If you don't throw them, Lexical will
 // try to recover gracefully without losing user data.  
@@ -22,7 +26,9 @@ function onError(error: unknown) {
 	console.error(error);
 }
 
-export default function ResponseCreator({ promptID = "" }: { promptID?: string | null}) {
+const ResponseCreator: React.FC<ResponseCreatorProps> = ({
+	promptID,
+}) => {
 	const initialConfig = {
 		namespace: "MyEditor",
 		theme: myLexicalTheme,
@@ -34,7 +40,7 @@ export default function ResponseCreator({ promptID = "" }: { promptID?: string |
 	return (
 		<div className={`max-w-4xl mx-auto bg-card rounded-lg shadow-sm overflow-hidden`}>
 			<LexicalComposer initialConfig={initialConfig}>
-				<Toolbars creatingResponse={true} currPromptId={promptID as string} />
+				<Toolbars currPromptId={promptID as string} />
 				<div className="px-4 min-h-[150px] overflow-y-auto relative border rounded-md py-2">
 					<ListPlugin />
 					<RichTextPlugin
@@ -55,3 +61,5 @@ export default function ResponseCreator({ promptID = "" }: { promptID?: string |
 		</div>
 	);
 }
+
+export default ResponseCreator;

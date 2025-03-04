@@ -12,6 +12,7 @@ import ResponseBox from '@/components/responseBox';
 import Editor from '@/components/Editor';
 import ResponseCreator from '@/components/responseCreator';
 import ResponseViewer from '@/components/responseViewer';
+import { createClient } from '@/utils/supabase/client';
 
 const PromptViewer = () => {
     // Get Prompt ID from URL
@@ -31,6 +32,7 @@ const PromptViewer = () => {
     const [isLoadingResponses, setIsLoadingResponses] = useState(false);
     const [hasMoreResponses, setHasMoreResponses] = useState(true);
     const loadingRef = useRef(null);
+    const channelRef = useRef<any>(null);
 
     const promptID = params.id;
     const PAGE_SIZE = 10; // Number of responses per page
@@ -112,6 +114,11 @@ const PromptViewer = () => {
     useEffect(() => {
         fetchPrompt();
         fetchResponses();
+        channelRef.current = realTimeResponses();
+
+        return () => {
+            channelRef.current?.unsubscribe()
+        }
     }, []);
 
     // Set up intersection observer for infinite scroll
@@ -135,6 +142,42 @@ const PromptViewer = () => {
             }
         };
     }, [page, isLoadingResponses, hasMoreResponses]);
+
+    // Handle real-time response insertions
+    const handleRealTimeInsert = (payload: any) => {
+        const { new: newResponse } = payload
+        setResponses(prevResponses => [newResponse, ...prevResponses])
+    };
+
+    // Establish Realtime connection to supabase
+    const realTimeResponses = () => {
+        const supabase = createClient()
+        const channel = supabase.channel("responses")
+
+        channel.on("postgres_changes",
+            {
+                event: "*",
+                schema: "public",
+                table: "responses"
+            },
+            payload => {
+                switch(payload.eventType) {
+                    case 'INSERT':
+                        handleRealTimeInsert(payload)
+                }
+            }
+        )
+            .subscribe(status => {
+                if (status === "SUBSCRIBED"){
+                    console.log("Realtime Connection Established")
+                } else {
+                    return
+                }
+            })
+
+        return channel
+
+    }
 
     return (
         <div className="max-w-4xl mx-auto px-4 py-8">
@@ -192,7 +235,7 @@ const PromptViewer = () => {
             {/* Response Creator */}
             <div className="mt-8 mb-8">
                 <h2 className="text-xl font-semibold mb-4">Create Response</h2>
-                <ResponseCreator promptID={promptID as string}/>
+                <ResponseCreator promptID={promptID as string} />
             </div>
 
             {/* Responses Section */}
