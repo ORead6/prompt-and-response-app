@@ -17,6 +17,7 @@ import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { create } from "domain";
+import ThemeSwitch from "@/components/themeSwitch";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState("");
@@ -72,6 +73,9 @@ export default function RegisterPage() {
 
   return (
     <div className="flex justify-center items-center min-h-screen px-4 py-8 bg-background">
+      <div className="absolute top-4 right-4">
+        <ThemeSwitch />
+      </div>
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold">

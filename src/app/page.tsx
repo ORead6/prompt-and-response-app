@@ -12,7 +12,10 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white dark:bg-gray-900 transition-colors duration-300">
-      <ThemeSwitch />
+      <div className="absolute top-4 right-4">
+        <ThemeSwitch />
+      </div>
+
       <motion.div
         className="text-center px-4"
         initial={{ opacity: 0, y: 20 }}
