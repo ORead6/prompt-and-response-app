@@ -12,7 +12,6 @@ import { HeadingNode } from "@lexical/rich-text";
 import LoadState from "./loadState";
 import { ListNode, ListItemNode } from "@lexical/list";
 import { ParagraphNode } from "lexical";
-import EditResponse from "./EditResponse";
 import { useEffect, useState } from "react";
 
 // Catch any errors that occur during Lexical updates and log them
@@ -41,13 +40,6 @@ export default function Editor() {
 		<div className={`max-w-4xl mx-auto bg-card rounded-lg shadow-sm overflow-hidden`}>
 			<LexicalComposer initialConfig={initialConfig}>
 				<LoadState />
-				{isAuthor &&
-					<div>
-						<EditResponse />
-					</div>
-				}
-
-
 				<div className="px-4 min-h-[150px] overflow-y-auto relative border rounded-md py-2">
 					<ListPlugin />
 					<RichTextPlugin

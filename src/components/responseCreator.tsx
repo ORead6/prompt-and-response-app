@@ -12,7 +12,6 @@ import { HeadingNode } from "@lexical/rich-text";
 import LoadState from "./loadState";
 import { ListNode, ListItemNode } from "@lexical/list";
 import { ParagraphNode } from "lexical";
-import EditResponse from "./EditResponse";
 import { useEffect, useState } from "react";
 import { myLexicalTheme } from "@/themes/myLexicalTheme";
 
