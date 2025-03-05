@@ -22,12 +22,12 @@ interface ToolbarsProps {
 }
 
 // TableSizeDialog Component
-function TableSizeDialog({ onSizeConfirm }) {
+function TableSizeDialog({ onSizeConfirm } : { onSizeConfirm: (rows: number, columns: number) => void }) {
   const [open, setOpen] = useState(false);
   const [rows, setRows] = useState(3);
   const [columns, setColumns] = useState(3);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     onSizeConfirm(Number(rows), Number(columns));
     setOpen(false);
@@ -62,7 +62,7 @@ function TableSizeDialog({ onSizeConfirm }) {
                 min="1"
                 max="50"
                 value={rows}
-                onChange={(e) => setRows(e.target.value)}
+                onChange={(e) => setRows(Number(e.target.value))}
                 className="col-span-3"
               />
             </div>
@@ -76,7 +76,7 @@ function TableSizeDialog({ onSizeConfirm }) {
                 min="1"
                 max="50"
                 value={columns}
-                onChange={(e) => setColumns(e.target.value)}
+                onChange={(e) => setColumns(Number(e.target.value))}
                 className="col-span-3"
               />
             </div>

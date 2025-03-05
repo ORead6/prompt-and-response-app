@@ -27,7 +27,7 @@ export function NavBar() {
 
   // Close mobile sidebar when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: any) => {
       if (mobileSidebarOpen && !event.target.closest('.mobile-sidebar') &&
         !event.target.closest('.mobile-menu-button')) {
         setMobileSidebarOpen(false);
@@ -35,7 +35,7 @@ export function NavBar() {
     };
 
     // Handle escape key press
-    const handleEscKey = (event) => {
+    const handleEscKey = (event: any) => {
       if (mobileSidebarOpen && event.key === 'Escape') {
         setMobileSidebarOpen(false);
       }
