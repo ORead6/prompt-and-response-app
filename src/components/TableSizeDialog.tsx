@@ -15,11 +15,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table } from "lucide-react"
 
-const LowPriority = 1;
-
-interface ToolbarsProps {
-  currPromptId?: string;
-}
 
 // TableSizeDialog Component
 function TableSizeDialog({ onSizeConfirm } : { onSizeConfirm: (rows: number, columns: number) => void }) {
