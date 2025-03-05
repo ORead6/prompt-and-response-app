@@ -4,6 +4,7 @@ import { Providers } from "../providers";
 import { NavBar } from "@/components/NavBar";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,6 +29,7 @@ export default async function RootLayout({
     <Providers>
       <NavBar />
       {children}
+      <Toaster />
     </Providers>
   );
 }
