@@ -6,9 +6,18 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
+import { HeadingNode, QuoteNode } from "@lexical/rich-text";
+import { CodeHighlightNode, CodeNode } from "@lexical/code";
+import { AutoLinkNode, LinkNode } from "@lexical/link";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
+import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
+import { TablePlugin } from "@lexical/react/LexicalTablePlugin";
+import { TableNode, TableRowNode, TableCellNode } from "@lexical/table";
 import Toolbars from "./Toolbars";
-import { HeadingNode } from "@lexical/rich-text";
+import { TRANSFORMERS } from '@lexical/markdown';
+
+
 import LoadState from "./loadState";
 import { ListNode, ListItemNode } from "@lexical/list";
 import { ParagraphNode } from "lexical";
@@ -33,7 +42,19 @@ const ResponseCreator: React.FC<ResponseCreatorProps> = ({
 		namespace: "MyEditor",
 		theme: myLexicalTheme,
 		onError,
-		nodes: [HeadingNode, ListNode, ListItemNode, ParagraphNode],
+		nodes: [
+			HeadingNode,
+			ListNode,
+			ListItemNode,
+			QuoteNode,
+			CodeNode,
+			CodeHighlightNode,
+			AutoLinkNode,
+			LinkNode,
+			TableNode,
+			TableRowNode,
+			TableCellNode
+		],
 		editable: true,
 	};
 
@@ -42,7 +63,10 @@ const ResponseCreator: React.FC<ResponseCreatorProps> = ({
 			<LexicalComposer initialConfig={initialConfig}>
 				<Toolbars currPromptId={promptID as string} />
 				<div className="px-4 overflow-y-auto relative border rounded-md py-2">
+					<MarkdownShortcutPlugin transformers={TRANSFORMERS}/>
 					<ListPlugin />
+					<LinkPlugin />
+					<TablePlugin />
 					<RichTextPlugin
 						contentEditable={
 							<ContentEditable

@@ -12,8 +12,12 @@ import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import { $getRoot, $createParagraphNode, EditorState } from 'lexical';
+import { TablePlugin } from "@lexical/react/LexicalTablePlugin";
+import { TableNode, TableRowNode, TableCellNode } from "@lexical/table";
 import LoadState from './loadState';
+import { TRANSFORMERS } from '@lexical/markdown';
 import { myLexicalTheme } from '../themes/myLexicalTheme';
 
 // Custom plugin to initialize editor with content
@@ -48,6 +52,9 @@ const ResponseViewer = ({ responseContent }: { responseContent: string }) => {
             CodeHighlightNode,
             AutoLinkNode,
             LinkNode,
+            TableNode,
+            TableRowNode,
+            TableCellNode
         ],
         theme: myLexicalTheme
     }
@@ -61,6 +68,8 @@ const ResponseViewer = ({ responseContent }: { responseContent: string }) => {
                     placeholder={<div className="editor-placeholder">No content</div>}
                     ErrorBoundary={LexicalErrorBoundary}
                 />
+                <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+                <TablePlugin />
                 <HistoryPlugin />
                 <LinkPlugin />
                 <ListPlugin />

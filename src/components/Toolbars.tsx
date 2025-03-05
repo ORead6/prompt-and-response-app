@@ -16,14 +16,17 @@ import {
 } from "lexical";
 import { useState, useEffect } from "react";
 import { mergeRegister } from "@lexical/utils";
-import { Heading1, Heading2, Heading3, List, ListOrdered, Plus, Redo, Undo } from "lucide-react";
+import { Heading1, Heading2, Heading3, List, ListCheck, ListChecks, ListOrdered, Plus, Redo, Table, Undo } from "lucide-react";
 import { useDebouncedCallback } from "use-debounce";
 import { $createHeadingNode, $isHeadingNode } from "@lexical/rich-text";
 import { $setBlocksType } from "@lexical/selection";
-import { $isListNode, INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND, REMOVE_LIST_COMMAND } from "@lexical/list";
+import { $isListNode, INSERT_CHECK_LIST_COMMAND, INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND, REMOVE_LIST_COMMAND } from "@lexical/list";
 import { Button } from "./ui/button";
 import { set } from "date-fns";
 import { useRouter } from "next/navigation";
+import { INSERT_TABLE_COMMAND } from "@lexical/table";
+import { InsertTableCommandPayload } from "@lexical/table";
+import TableSizeDialog from "./TableSizeDialog";
 
 const LowPriority = 1;
 
@@ -41,6 +44,7 @@ const Toolbars = ({
   const [isStrikeThrough, setIsStrikeThrough] = useState(false);
   const [isOrderedList, setIsOrderedList] = useState(false);
   const [isUnorderedList, setIsUnorderedList] = useState(false);
+
   const [isEditorEmpty, setIsEditorEmpty] = useState(true);
   const [richContent, setRichContent] = useState({});
   const [isHeading1, setIsHeading1] = useState(false);
@@ -82,9 +86,11 @@ const Toolbars = ({
         setIsUnorderedList(
           $isListNode(parentList) && parentList.getListType() === "bullet"
         );
+
       } else {
         setIsOrderedList(false);
         setIsUnorderedList(false);
+
       }
 
       // Check if element is a heading
@@ -233,6 +239,22 @@ const Toolbars = ({
     });
   };
 
+  const onTableCreate = (rows: number, columns: number) => {
+    if (
+      isNaN(columns) ||
+      columns <= 0 ||
+      rows <= 0 ||
+      isNaN(rows)
+    ) {
+      return;
+    }
+
+    editor.dispatchCommand(INSERT_TABLE_COMMAND, { 
+      columns: columns.toString(), 
+      rows: rows.toString() 
+    });
+  };
+
   const handleCreateResponse = async () => {
     if (isEditorEmpty) {
       alert("Response Cannot Be Empty")
@@ -370,6 +392,10 @@ const Toolbars = ({
           >
             <ListOrdered size={18} />
           </button>
+          
+        </div>
+        <div className="flex items-center space-x-1 border-r pr-1 mr-1">
+          <TableSizeDialog onSizeConfirm={onTableCreate} />
         </div>
 
         <div className="flex items-center space-x-1">
@@ -408,6 +434,5 @@ const Toolbars = ({
     </div>
   );
 };
-
 
 export default Toolbars;
