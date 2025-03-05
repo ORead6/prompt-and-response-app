@@ -30,22 +30,22 @@ export async function POST(req: NextRequest) {
     // Create Supabase Client
     const supabase = await createClient();
 
-    // const { data: sessionData, error: sessionError } = await supabase.auth.getUser();
+    const { data: sessionData, error: sessionError } = await supabase.auth.getUser();
 
-    // if (sessionError) {
-    //   return NextResponse.json(
-    //     { success: false, error: sessionError.message },
-    //     { status: 500 }
-    //   );
-    // }
+    if (sessionError) {
+      return NextResponse.json(
+        { success: false, error: sessionError.message },
+        { status: 500 }
+      );
+    }
 
-    // // Check if user is authenticated
-    // if (!sessionData.user) {
-    //   return NextResponse.json(
-    //     { success: false, error: "User is not authenticated" },
-    //     { status: 401 }
-    //   );
-    // }
+    // Check if user is authenticated
+    if (!sessionData.user) {
+      return NextResponse.json(
+        { success: false, error: "User is not authenticated" },
+        { status: 401 }
+      );
+    }
 
     // Get Prompts from Supabase
     let data, error;
