@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { Plus } from "lucide-react";
 import CategoryEntryBar from "@/components/CategoryEntryBar";
+import CategoryDisplayBar from "@/components/CategoryDisplayBar";
 
 // Type for prompt data
 type Prompt = {
@@ -190,16 +191,7 @@ const PromptPage = () => {
 
                   {/* Categories display */}
                   {prompt.categories && prompt.categories.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mt-2 mb-2">
-                      {prompt.categories.map((category, idx) => (
-                        <span
-                          key={idx}
-                          className="px-2 py-1 bg-primary/10 text-primary rounded-md text-sm font-medium"
-                        >
-                          {category.charAt(0).toUpperCase() + category.slice(1)}
-                        </span>
-                      ))}
-                    </div>
+                    <CategoryDisplayBar categories={prompt.categories} />
                   )}
 
                   {prompt.prompt && (

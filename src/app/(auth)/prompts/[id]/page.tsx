@@ -11,6 +11,7 @@ import { formatDistanceToNow } from "date-fns";
 import ResponseCreator from "@/components/responseCreator";
 import ResponseViewer from "@/components/responseViewer";
 import { createClient } from "@/utils/supabase/client";
+import CategoryDisplayBar from "@/components/CategoryDisplayBar";
 
 const PromptViewer = () => {
   // Get Prompt ID from URL
@@ -23,6 +24,7 @@ const PromptViewer = () => {
     prompt: "",
     created_at: "",
     author: "",
+    categories: [],
   });
 
   const [isLoading, setIsLoading] = useState(true);
@@ -219,12 +221,16 @@ const PromptViewer = () => {
             <div className="flex flex-col gap-1">
               {/* Enhanced Prompt Title */}
               <CardTitle className="text-4xl font-bold text-foreground/90">
-                {promptData.title}
+                <div className="flex flex-row justify-between items-center">
+                  {promptData.title}
+                  <CategoryDisplayBar categories={promptData.categories} />
+                </div>
               </CardTitle>
 
               {/* Author & timestamp with smaller text */}
               <div className="text-xs text-muted-foreground mt-1">
-                Posted by <span className="font-medium">{promptData.author}</span> • {" "}
+                Posted by{" "}
+                <span className="font-medium">{promptData.author}</span> •{" "}
                 {formatDistanceToNow(new Date(promptData.created_at), {
                   addSuffix: true,
                 })}
@@ -236,7 +242,7 @@ const PromptViewer = () => {
         <CardContent className="px-0 pt-4">
           {/* Clear divider to separate metadata from content */}
           <div className="border-t-2 mb-4"></div>
-          
+
           {/* Skeleton */}
           {isLoading ? (
             <>
@@ -263,7 +269,9 @@ const PromptViewer = () => {
 
       {/* Responses Section */}
       <div className="mt-12">
-        <h2 className="text-2xl font-semibold mb-6 border-b-2 pb-2">Community Responses</h2>
+        <h2 className="text-2xl font-semibold mb-6 border-b-2 pb-2">
+          Community Responses
+        </h2>
 
         {responses.length === 0 && !isLoadingResponses ? (
           <div className="rounded-lg border-2 border-dashed p-8 flex flex-col items-center justify-center gap-4 bg-muted/30">

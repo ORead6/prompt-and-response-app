@@ -15,6 +15,7 @@ interface ResponseData {
     prompt?: string;
     [key: string]: any;
     author: string;
+    categories: string[];
   };
 }
 
