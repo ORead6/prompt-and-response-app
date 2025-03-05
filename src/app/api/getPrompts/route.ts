@@ -5,11 +5,12 @@ import { createClient } from "@/utils/supabase/server";
 interface RequestData {
   page: number;
   page_size: number;
+  categories: string[] | null;
 }
 
 // API Response
 interface ResponseData {
-  prompts: {};
+  prompts: any[] | null;
   success: boolean;
 }
 
@@ -29,29 +30,46 @@ export async function POST(req: NextRequest) {
     // Create Supabase Client
     const supabase = await createClient();
 
-    const { data: sessionData, error: sessionError } = await supabase.auth.getUser();
+    // const { data: sessionData, error: sessionError } = await supabase.auth.getUser();
 
-    if (sessionError) {
-      return NextResponse.json(
-        { success: false, error: sessionError.message },
-        { status: 500 }
-      );
-    }
+    // if (sessionError) {
+    //   return NextResponse.json(
+    //     { success: false, error: sessionError.message },
+    //     { status: 500 }
+    //   );
+    // }
 
-    // Check if user is authenticated
-    if (!sessionData.user) {
-      return NextResponse.json(
-        { success: false, error: "User is not authenticated" },
-        { status: 401 }
-      );
-    }
+    // // Check if user is authenticated
+    // if (!sessionData.user) {
+    //   return NextResponse.json(
+    //     { success: false, error: "User is not authenticated" },
+    //     { status: 401 }
+    //   );
+    // }
 
     // Get Prompts from Supabase
-    const { data, error } = await supabase
-      .from("prompts")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .range(body.page * body.page_size, (body.page + 1) * body.page_size - 1);
+    let data, error;
+
+    if (!body.categories) {
+      const result = await supabase
+        .from("prompts")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .range(body.page * body.page_size, (body.page + 1) * body.page_size - 1);
+
+      data = result.data;
+      error = result.error;
+    } else {
+      const result = await supabase
+        .from("prompts")
+        .select("*")
+        .contains("categories", body.categories)
+        .order("created_at", { ascending: false })
+        .range(body.page * body.page_size, (body.page + 1) * body.page_size - 1);
+
+      data = result.data;
+      error = result.error;
+    }
 
     if (error) {
       return NextResponse.json(
