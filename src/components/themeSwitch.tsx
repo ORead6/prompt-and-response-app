@@ -12,6 +12,7 @@ export default function ThemeSwitch() {
 
   useEffect(() => setMounted(true), []);
 
+  // Change theme
   const handleThemeChange = () => {
     if (resolvedTheme === "dark") {
       setTheme("light");

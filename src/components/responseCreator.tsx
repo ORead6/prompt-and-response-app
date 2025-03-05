@@ -26,6 +26,7 @@ import { ParagraphNode } from "lexical";
 import { useEffect, useState } from "react";
 import { myLexicalTheme } from "@/themes/myLexicalTheme";
 import { MATCHERS } from "@/utils/lexical/autoLinkMatchers";
+import CreateResponseButton from "./CreateResponseButton";
 
 type ResponseCreatorProps = {
 	promptID: string;
@@ -64,14 +65,14 @@ const ResponseCreator: React.FC<ResponseCreatorProps> = ({
 	return (
 		<div className={`max-w-4xl mx-auto rounded-md overflow-hidden`}>
 			<LexicalComposer initialConfig={initialConfig}>
-				<Toolbars currPromptId={promptID as string} />
+				<Toolbars />
 				<div className="px-4 overflow-y-auto relative border rounded-md py-2">
-					<MarkdownShortcutPlugin transformers={TRANSFORMERS}/>
+					<MarkdownShortcutPlugin transformers={TRANSFORMERS} />
 					<ListPlugin />
 					<LinkPlugin />
 					<TablePlugin />
 					<TabIndentationPlugin />
-					<AutoLinkPlugin matchers={MATCHERS}/>
+					<AutoLinkPlugin matchers={MATCHERS} />
 					<RichTextPlugin
 						contentEditable={
 							<ContentEditable
@@ -86,6 +87,10 @@ const ResponseCreator: React.FC<ResponseCreatorProps> = ({
 					<HistoryPlugin />
 					<AutoFocusPlugin />
 				</div>
+				<div className="flex items-center justify-end pt-2">
+					<CreateResponseButton currPromptId={promptID as string}/>
+				</div>
+
 			</LexicalComposer>
 		</div>
 	);
