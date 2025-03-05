@@ -14,6 +14,7 @@ type Prompt = {
   prompt: string | null,
   author: string | null,
   created_at: string,
+  categories: string[] | null
 };
 
 const PromptPage = () => {
@@ -58,7 +59,7 @@ const PromptPage = () => {
 
       // Add the new prompts to the existing ones
       setPrompts(prevPrompts => {
-        const newPromptIds = new Set(prompts.map((p:any) => p.id));
+        const newPromptIds = new Set(prompts.map((p: any) => p.id));
         const uniquePrevPrompts = prevPrompts.filter(p => !newPromptIds.has(p.id));
         return [...uniquePrevPrompts, ...prompts];
       });
@@ -139,6 +140,21 @@ const PromptPage = () => {
                   onClick={() => router.push(`/prompts/${prompt.id}`)}
                 >
                   <h3 className="text-xl font-semibold text-foreground">{prompt.title}</h3>
+
+                  {/* Categories display */}
+                  {prompt.categories && prompt.categories.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2 mb-2">
+                      {prompt.categories.map((category, idx) => (
+                        <span
+                          key={idx}
+                          className="px-2 py-1 bg-primary/10 text-primary rounded-md text-sm font-medium"
+                        >
+                          {category.charAt(0).toUpperCase() + category.slice(1)}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
                   {prompt.prompt && (
                     <p className="mt-2 text-muted-foreground line-clamp-2">
                       {prompt.prompt}
