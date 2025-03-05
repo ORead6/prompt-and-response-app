@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import NoPromptsCard from "@/components/EmptyPromptPlaceholder";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
+import { Plus } from "lucide-react";
 
 // Type for prompt data
 type Prompt = {
@@ -103,26 +104,23 @@ const PromptPage = () => {
   }, []);
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      <div className="relative">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key="button"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="flex justify-end mb-6"
+    <div className="max-w-3xl mx-auto px-4 py-8 relative">
+      <div className="sticky top-16 z-10 bg-background/95 pt-2 pb-4 mb-6 border-b shadow-none">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold">Prompts</h1>
+          <Button
+            onClick={() => router.push("/create-prompt")}
+            className="bg-primary hover:bg-primary/90 font-medium px-6"
+            size="lg"
           >
-            <Button
-              onClick={() => router.push("/create-prompt")}
-              className="bg-primary hover:bg-primary/90"
-            >
-              Create Prompt
-            </Button>
-          </motion.div>
-        </AnimatePresence>
+            <Plus className="mr-2 h-5 w-5" />
+            Create Prompt
+          </Button>
+        </div>
+      </div>
 
-        {/* Display prompts */}
+      {/* Display prompts */}
+      <div className="mt-4">
         {prompts.length === 0 && !isLoading ? (
           <div className="rounded-lg border p-8 text-center text-muted-foreground">
             <NoPromptsCard />
@@ -137,7 +135,7 @@ const PromptPage = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.2, delay: index * 0.05 }}
-                  className="rounded-lg border p-6 hover:shadow-md transition-shadow cursor-pointer"
+                  className="rounded-lg border p-6 hover:shadow-md transition-all cursor-pointer hover:border-primary/30"
                   onClick={() => router.push(`/prompts/${prompt.id}`)}
                 >
                   <h3 className="text-xl font-semibold text-foreground">{prompt.title}</h3>
@@ -166,6 +164,22 @@ const PromptPage = () => {
         )}
       </div>
 
+      {/* Floating action button for mobile */}
+      <div className="md:hidden fixed bottom-6 right-6 z-20">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        >
+          <Button
+            onClick={() => router.push("/create-prompt")}
+            size="icon"
+            className="h-14 w-14 rounded-full shadow-lg bg-primary hover:bg-primary/90 text-primary-foreground"
+          >
+            <Plus className="h-6 w-6" />
+          </Button>
+        </motion.div>
+      </div>
     </div>
   );
 };

@@ -205,7 +205,7 @@ const PromptViewer = () => {
           className="flex items-center gap-2"
         >
           <ArrowLeft size={16} />
-          Back to Prompts
+          Back
         </Button>
       </div>
 
