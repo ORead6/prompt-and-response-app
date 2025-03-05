@@ -6,6 +6,7 @@ import { createClient } from "@/utils/supabase/server";
 interface RequestData {
   title: string;
   prompt: string | null;
+  categories: string[] | null
 }
 
 // API Response
@@ -18,6 +19,7 @@ interface ResponseData {
     title: string;
     prompt: string | null;
     author: string | null;
+    categories?: string[] | null;
   };
 }
 
@@ -73,12 +75,18 @@ export async function POST(req: NextRequest) {
     // Gen Prompt UUID
     const promptID = uuid();
 
+    // Change each category in categories to be all lower case
+    if (body.categories) {
+      body.categories = body.categories.map((category) => category.toLowerCase());
+    }
+
     // Create Prompt Object
     const promptData = {
       id: promptID,
       title: body.title,
       prompt: body.prompt,
       author: profileData[0].username,
+      categories: body.categories,
     };
 
     // Insert Prompt into Supabase
@@ -99,6 +107,7 @@ export async function POST(req: NextRequest) {
         title: body.title,
         prompt: body.prompt,
         author: userID!,
+        categories: body.categories
       },
     };
 
