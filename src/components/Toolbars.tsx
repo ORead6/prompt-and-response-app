@@ -10,13 +10,15 @@ import {
   CAN_REDO_COMMAND,
   CAN_UNDO_COMMAND,
   FORMAT_TEXT_COMMAND,
+  INDENT_CONTENT_COMMAND,
+  OUTDENT_CONTENT_COMMAND,
   REDO_COMMAND,
   REMOVE_TEXT_COMMAND,
   UNDO_COMMAND,
 } from "lexical";
 import { useState, useEffect } from "react";
 import { mergeRegister } from "@lexical/utils";
-import { Heading1, Heading2, Heading3, List, ListCheck, ListChecks, ListOrdered, Plus, Redo, Table, Undo } from "lucide-react";
+import { Heading1, Heading2, Heading3, IndentIncrease, List, ListCheck, ListChecks, ListOrdered, OutdentIcon, Plus, Redo, Table, Undo } from "lucide-react";
 import { useDebouncedCallback } from "use-debounce";
 import { $createHeadingNode, $isHeadingNode } from "@lexical/rich-text";
 import { $setBlocksType } from "@lexical/selection";
@@ -211,6 +213,24 @@ const Toolbars = ({
     });
   };
 
+  const handleIncreaseIndent = () => {
+    editor.update(() => {
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        editor.dispatchCommand(INDENT_CONTENT_COMMAND, undefined);
+      }
+    });
+  };
+
+  const handleDecreaseIndent = () => {
+    editor.update(() => {
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        editor.dispatchCommand(OUTDENT_CONTENT_COMMAND, undefined);
+      }
+    });
+  };
+
   const handleStrikeThrough = () => {
     editor.update(() => {
       const selection = $getSelection();
@@ -249,9 +269,9 @@ const Toolbars = ({
       return;
     }
 
-    editor.dispatchCommand(INSERT_TABLE_COMMAND, { 
-      columns: columns.toString(), 
-      rows: rows.toString() 
+    editor.dispatchCommand(INSERT_TABLE_COMMAND, {
+      columns: columns.toString(),
+      rows: rows.toString()
     });
   };
 
@@ -392,10 +412,24 @@ const Toolbars = ({
           >
             <ListOrdered size={18} />
           </button>
-          
+
         </div>
         <div className="flex items-center space-x-1 border-r pr-1 mr-1">
           <TableSizeDialog onSizeConfirm={onTableCreate} />
+          <button
+            onClick={handleIncreaseIndent}
+            className={`h-8 w-8 rounded-md flex items-center justify-center transition-colors hover:bg-muted`}
+            title="Positive Indent"
+          >
+            <IndentIncrease size={18} />
+          </button>
+          <button
+            onClick={handleDecreaseIndent}
+            className={`h-8 w-8 rounded-md flex items-center justify-center transition-colors hover:bg-muted`}
+            title="Positive Indent"
+          >
+            <OutdentIcon size={18} />
+          </button>
         </div>
 
         <div className="flex items-center space-x-1">
