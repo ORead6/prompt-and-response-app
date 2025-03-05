@@ -3,7 +3,7 @@ import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const CategoryEntryBar = ({ onStateChange }) => {
+const CategoryEntryBar = ({ onStateChange } : {onStateChange: (categories: string[]) => void } ) => {
   const [categoryInput, setCategoryInput] = useState("");
   const [categories, setCategories] = useState<string[]>([]);
 
