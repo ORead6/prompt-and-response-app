@@ -14,6 +14,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import CategoryEntryBar from "./CategoryEntryBar";
 
 const CreatePromptForm = ({
   maxLength = 300,
@@ -22,16 +23,14 @@ const CreatePromptForm = ({
   titleGuidance = "Add a descriptive title",
   promptGuidance = "Add your prompt details",
   showCharacterCount = true,
-  enhancedButton = true
+  enhancedButton = true,
 }) => {
   const [title, setTitle] = useState("");
   const [prompt, setPrompt] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({ title: "", prompt: "" });
   const router = useRouter();
-  const [categoryInput, setCategoryInput] = useState("");
   const [categories, setCategories] = useState<string[]>([]);
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,7 +59,7 @@ const CreatePromptForm = ({
 
       const data = await response.json();
 
-      console.log(data.data.id)
+      console.log(data.data.id);
 
       if (data.success) {
         // Redirect to prompts page after successful creation
@@ -76,22 +75,8 @@ const CreatePromptForm = ({
     }
   };
 
-  const handleCategoryKeyDown = (e: any) => {
-    if (e.key === 'Enter' && categoryInput.trim()) {
-      e.preventDefault();
-      const newCategory = categoryInput.trim();
-
-      // Don't add duplicates
-      if (!categories.includes(newCategory)) {
-        setCategories([...categories, newCategory]);
-      }
-
-      setCategoryInput("");
-    }
-  };
-
-  const removeCategory = (categoryToRemove: string) => {
-    setCategories(categories.filter(category => category !== categoryToRemove));
+  const handleCategoryChange = (categories: string[]) => {
+    setCategories(categories);
   };
 
   return (
@@ -107,7 +92,10 @@ const CreatePromptForm = ({
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <HelpCircle size={16} className="text-muted-foreground cursor-help" />
+                  <HelpCircle
+                    size={16}
+                    className="text-muted-foreground cursor-help"
+                  />
                 </TooltipTrigger>
                 <TooltipContent className="max-w-xs">
                   <p>{titleGuidance}</p>
@@ -117,7 +105,13 @@ const CreatePromptForm = ({
           </div>
 
           {showCharacterCount && (
-            <div className={`text-xs ${title.length > maxLength ? 'text-red-500 font-medium' : 'text-muted-foreground'}`}>
+            <div
+              className={`text-xs ${
+                title.length > maxLength
+                  ? "text-red-500 font-medium"
+                  : "text-muted-foreground"
+              }`}
+            >
               {title.length}/{maxLength} characters
             </div>
           )}
@@ -128,7 +122,9 @@ const CreatePromptForm = ({
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder={titlePlaceholder}
-          className={`w-full border-2 ${errors.title ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+          className={`w-full border-2 ${
+            errors.title ? "border-red-500 focus-visible:ring-red-500" : ""
+          }`}
           maxLength={maxLength + 10} // Allow a bit over to show the error
         />
 
@@ -137,53 +133,8 @@ const CreatePromptForm = ({
         )}
       </div>
 
-      {/* Categories field */}
-      <div className="space-y-2">
-        <div className="flex items-center gap-2">
-          <Label htmlFor="categories" className="font-medium">
-            Categories
-          </Label>
-
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <HelpCircle size={16} className="text-muted-foreground cursor-help" />
-              </TooltipTrigger>
-              <TooltipContent className="max-w-xs">
-                <p>Add categories to help your prompts be found!</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-
-        <div className="flex flex-wrap gap-2 mb-2">
-          {categories.map((category, index) => (
-            <div key={index} className="flex items-center bg-primary/10 text-primary rounded-full px-3 py-1">
-              <span>{category}</span>
-              <button
-                type="button"
-                onClick={() => removeCategory(category)}
-                className="ml-2 text-primary/70 hover:text-primary focus:outline-none"
-                aria-label={`Remove ${category} category`}
-              >
-                <X size={14} />
-              </button>
-            </div>
-          ))}
-        </div>
-
-        <Input
-          id="categories"
-          value={categoryInput}
-          onChange={(e) => setCategoryInput(e.target.value)}
-          onKeyDown={handleCategoryKeyDown}
-          placeholder="Type a category and press Enter"
-          className="w-full"
-        />
-        <p className="text-sm text-muted-foreground">
-          Press Enter to add each category
-        </p>
-      </div>
+      {/* Categories Bar */}
+      <CategoryEntryBar onStateChange={handleCategoryChange} />
 
       {/* Prompt Input */}
       <div className="space-y-2">
@@ -195,7 +146,10 @@ const CreatePromptForm = ({
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <HelpCircle size={16} className="text-muted-foreground cursor-help" />
+                <HelpCircle
+                  size={16}
+                  className="text-muted-foreground cursor-help"
+                />
               </TooltipTrigger>
               <TooltipContent className="max-w-xs">
                 <p>{promptGuidance}</p>
@@ -209,7 +163,9 @@ const CreatePromptForm = ({
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder={promptPlaceholder}
-          className={`w-full min-h-[200px] border-2 ${errors.prompt ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+          className={`w-full min-h-[200px] border-2 ${
+            errors.prompt ? "border-red-500 focus-visible:ring-red-500" : ""
+          }`}
         />
 
         {errors.prompt && (
