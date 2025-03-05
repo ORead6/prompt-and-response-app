@@ -19,6 +19,7 @@ import { TableNode, TableRowNode, TableCellNode } from "@lexical/table";
 import LoadState from './loadState';
 import { TRANSFORMERS } from '@lexical/markdown';
 import { myLexicalTheme } from '../themes/myLexicalTheme';
+import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
 
 // Custom plugin to initialize editor with content
 function InitialStatePlugin() {
@@ -73,6 +74,7 @@ const ResponseViewer = ({ responseContent }: { responseContent: string }) => {
                 <HistoryPlugin />
                 <LinkPlugin />
                 <ListPlugin />
+                <TabIndentationPlugin />
                 <LoadState responseContent={responseContent} />
                 <InitialStatePlugin />
             </div>

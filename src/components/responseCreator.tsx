@@ -14,6 +14,7 @@ import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import { TablePlugin } from "@lexical/react/LexicalTablePlugin";
 import { TableNode, TableRowNode, TableCellNode } from "@lexical/table";
+import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
 import Toolbars from "./Toolbars";
 import { TRANSFORMERS } from '@lexical/markdown';
 
@@ -67,6 +68,7 @@ const ResponseCreator: React.FC<ResponseCreatorProps> = ({
 					<ListPlugin />
 					<LinkPlugin />
 					<TablePlugin />
+					<TabIndentationPlugin />
 					<RichTextPlugin
 						contentEditable={
 							<ContentEditable
