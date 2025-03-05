@@ -15,7 +15,7 @@ export const myLexicalTheme = {
     h2: "text-2xl font-semibold",
     h3: "text-xl font-medium",
   },
-  link: 'text-primary underline',
+  link: 'text-blue-900 underline',
 
   // Table container styling
   table: "w-full border-collapse table-fixed my-5 overflow-y-auto max-w-full bg-card text-card-foreground border-2 rounded-lg shadow-sm",
