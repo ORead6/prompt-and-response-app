@@ -5,8 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import NoPromptsCard from "@/components/EmptyPromptPlaceholder";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
-import { Plus, X } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Plus } from "lucide-react";
 import CategoryEntryBar from "@/components/CategoryEntryBar";
 
 // Type for prompt data
@@ -32,23 +31,46 @@ const PromptPage = () => {
 
   const PAGE_SIZE = 10;
 
+  // Define interface for request body
+  interface PromptRequestBody {
+    page: number;
+    page_size: number;
+    categories?: string[];
+  }
+
+  // Allows state management of categories from CategoryEntryBar
   const handleCategoryStateChange = (categories: string[]) => {
     setCategories(categories);
-
-    // API CALL TO GET NEW PROMPTS
   };
 
-  const fetchPrompts = async () => {
-    if (isLoading || !hasMore) return;
+  const fetchPrompts = async (options?: { forceFetch?: boolean }) => {
+    const forceFetch = options?.forceFetch ?? false;
+    if (!forceFetch && (isLoading || !hasMore)) return;
 
     setIsLoading(true);
-    const nextPage = page + 1;
+
+    let nextPage: number;
+    if (forceFetch) {
+      nextPage = 0;
+    } else {
+      nextPage = page + 1;
+    }
+
     setPage(nextPage);
 
     try {
+      // Only include categories in the request body if there are any
+      let reqBody: PromptRequestBody = { page: nextPage, page_size: PAGE_SIZE };
+
+      if (categories.length > 0) {
+        reqBody = { ...reqBody, categories };
+      }
+
+      console.log(reqBody);
+
       const response = await fetch("/api/getPrompts", {
         method: "POST",
-        body: JSON.stringify({ page: nextPage, page_size: PAGE_SIZE }),
+        body: JSON.stringify(reqBody),
       });
 
       if (!response.ok) {
@@ -82,6 +104,16 @@ const PromptPage = () => {
     }
   };
 
+  // Effect to reset and trigger fetch when categories change.
+  useEffect(() => {
+    setPrompts([]);
+    setPage(-1);
+    setHasMore(true);
+    fetchPrompts({ forceFetch: true });
+    console.log("Categories changed:", categories);
+  }, [categories]);
+
+  // Use Effect to get initial prompts
   useEffect(() => {
     if (!initialFetchDone) {
       fetchPrompts();
@@ -111,11 +143,6 @@ const PromptPage = () => {
     };
   }, [page, isLoading, hasMore]);
 
-  // Initial data fetch
-  useEffect(() => {
-    fetchPrompts();
-  }, []);
-
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 relative">
       <div className="sticky top-16 z-10 bg-background/95 pt-2 pb-4 mb-6 border-b shadow-none">
@@ -144,7 +171,7 @@ const PromptPage = () => {
             <NoPromptsCard />
           </div>
         ) : (
-          // Infinte Scroll Display Prompts
+          // Infinite Scroll Display Prompts
           <div className="space-y-4">
             <AnimatePresence>
               {prompts.map((prompt, index) => (
