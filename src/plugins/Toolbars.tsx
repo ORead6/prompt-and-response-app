@@ -8,6 +8,7 @@ import HeadingFormatSection from "./toolbarSections/HeadingFormatSection";
 import ListFormatSection from "./toolbarSections/ListFormatSection";
 import TableAndIndentFormatSection from "./toolbarSections/TableAndIndentFormatSection";
 import UndoRedoSection from "./toolbarSections/UndoRedoSection";
+import ImagePlugin from "./ImagePlugin";
 
 const Toolbars = () => {
   const [editor] = useLexicalComposerContext();
@@ -29,6 +30,7 @@ const Toolbars = () => {
         <HeadingFormatSection />
         <ListFormatSection />
         <TableAndIndentFormatSection />
+        <ImagePlugin />
         <UndoRedoSection />
       </div>
     </div>

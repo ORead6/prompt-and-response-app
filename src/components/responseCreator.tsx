@@ -18,12 +18,14 @@ import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin
 import Toolbars from "@/plugins/Toolbars";
 import { TRANSFORMERS } from '@lexical/markdown';
 import { AutoLinkPlugin } from "@lexical/react/LexicalAutoLinkPlugin";
+import { ImageNode } from "@/plugins/nodes/ImageNode";
 
 
 import { ListNode, ListItemNode } from "@lexical/list";
 import { myLexicalTheme } from "@/themes/myLexicalTheme";
 import { MATCHERS } from "@/utils/lexical/autoLinkMatchers";
 import CreateResponseButton from "./CreateResponseButton";
+import ImagePlugin from "@/plugins/ImagePlugin";
 
 type ResponseCreatorProps = {
 	promptID: string;
@@ -54,7 +56,8 @@ const ResponseCreator: React.FC<ResponseCreatorProps> = ({
 			LinkNode,
 			TableNode,
 			TableRowNode,
-			TableCellNode
+			TableCellNode,
+			ImageNode
 		],
 		editable: true,
 	};
