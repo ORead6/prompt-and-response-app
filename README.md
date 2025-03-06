@@ -12,7 +12,7 @@ A collaborative writing platform for creating prompts, sharing ideas, and collab
 - **Infinite Scrolling:** Browse through prompts and responses with seamless loading
 - **Dark/Light Mode:** Choose your preferred theme
 - **Mobile Responsiveness:** Full functionality across devices
-- 
+
 ## Technologies Used
 - **Frontend:** Next.js 14, React, Typescript
 - **Authentication & Database:** Supabase
