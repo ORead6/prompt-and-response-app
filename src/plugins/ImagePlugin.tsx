@@ -36,10 +36,14 @@ export default function ImagePlugin() {
   };
 
   return (
-    <div className="flex items-center space-x-1 border-r pr-1 mr-1">
-      <Button variant={"ghost"} size="icon" onClick={() => setIsOpen(true)}>
-        <ImagePlus />
-      </Button>
+    <div className="flex items-center space-x-1 border-r mr-1">
+      <button
+        onClick={() => setIsOpen(true)}
+        className={`h-8 w-8 rounded-md flex items-center justify-center transition-colors hover:bg-muted `}
+        title="Image"
+      >
+        <ImagePlus size={18} />
+      </button>
       <input
         type="file"
         ref={inputRef}
