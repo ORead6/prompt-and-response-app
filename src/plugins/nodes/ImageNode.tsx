@@ -6,6 +6,7 @@ import {
   NodeKey,
   SerializedLexicalNode,
 } from "lexical";
+import { JSX } from "react";
 
 // Add this interface to define the shape of your serialized node
 export interface SerializedImageNode extends SerializedLexicalNode {
