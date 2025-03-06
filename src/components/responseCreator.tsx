@@ -15,15 +15,12 @@ import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPl
 import { TablePlugin } from "@lexical/react/LexicalTablePlugin";
 import { TableNode, TableRowNode, TableCellNode } from "@lexical/table";
 import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
-import Toolbars from "./Toolbars";
+import Toolbars from "@/plugins/Toolbars";
 import { TRANSFORMERS } from '@lexical/markdown';
 import { AutoLinkPlugin } from "@lexical/react/LexicalAutoLinkPlugin";
 
 
-import LoadState from "./loadState";
 import { ListNode, ListItemNode } from "@lexical/list";
-import { ParagraphNode } from "lexical";
-import { useEffect, useState } from "react";
 import { myLexicalTheme } from "@/themes/myLexicalTheme";
 import { MATCHERS } from "@/utils/lexical/autoLinkMatchers";
 import CreateResponseButton from "./CreateResponseButton";

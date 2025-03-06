@@ -1,4 +1,4 @@
-import TableSizeDialog from '../TableSizeDialog';
+import TableSizeDialog from '@/components/TableSizeDialog';
 import { IndentIncrease, OutdentIcon } from "lucide-react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {

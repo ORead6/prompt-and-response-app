@@ -1,15 +1,7 @@
 "use client";
 
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import {
-  $createParagraphNode,
-  $getRoot,
-} from "lexical";
 import { useState, useEffect } from "react";
-import { mergeRegister } from "@lexical/utils";
-import { Plus } from "lucide-react";
-
-import { Button } from "./ui/button";
 
 import FontFormatSection from "./toolbarSections/FontFormatSection";
 import HeadingFormatSection from "./toolbarSections/HeadingFormatSection";
