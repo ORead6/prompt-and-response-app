@@ -133,6 +133,41 @@ pnpm dev
 ├── next.config.ts        # Next.js configuration
 ```
 
+# Key Design & Technical Decisions
+## Authentication & Authorization
+- Used Supabase Auth for user authentication with middleware protection for routes
+- Created a custom profiles table to store additional user information beyond the default auth schema
+- Implemented protected routes using a Next.js middleware approach to ensure security
+
+## Database Design
+- Structured the database with clear relationships between prompts and responses
+- Used cascading deletes to ensure that when a prompt is deleted, all associated responses are automatically removed
+- Implemented categories as an array type in the prompts table for efficient filtering
+
+## Real-time Updates
+- Leveraged Supabase's real-time capabilities for instant response updates
+- Implemented a channel-based subscription system to efficiently push new responses to clients
+- Used optimistic UI updates for better user experience
+
+## Rich Text Editor
+- Built custom plugins and toolbar components for a tailored editing experience
+- Implemented a shared theme for consistent styling between editor and viewer
+
+## Frontend Architecture
+- Implemented infinite scrolling for both prompts and responses to handle large datasets efficiently
+- Created reusable components for categories and common UI elements
+
+# Areas for Improvement
+**With more time, the following improvements would be prioritized:**
+
+## Editor Enhancements
+- Plugin Synchronization: Refactor the response creator and viewer components to share a common plugin system, ensuring that plugins added to one component are automatically available in the other
+- Image Handling: Fix the current image plugin implementation which adds a paragraph space to bypass the isEmpty check; implement a proper solution for checking emptiness that accounts for images
+- Image Persistence: Implement a storage solution for images used in responses so they persist when the page is refreshed, rather than showing alt text
+
+## User Experience
+- Implement a rating or upvote system for responses
+
 ## Development
 ### Custom UI Components
 The project uses shadcn/ui components which can be customized in the ```src/components/ui``` directory.
