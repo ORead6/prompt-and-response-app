@@ -27,6 +27,7 @@ const PromptViewer = () => {
     categories: [],
   });
 
+  // Set States
   const [isLoading, setIsLoading] = useState(true);
   const [responses, setResponses] = useState<any[]>([]);
   const [page, setPage] = useState(0);
@@ -74,6 +75,7 @@ const PromptViewer = () => {
 
     setIsLoadingResponses(true);
 
+    // API Call
     try {
       const response = await fetch("/api/getResponses", {
         method: "POST",
@@ -150,7 +152,7 @@ const PromptViewer = () => {
     };
   }, [page, isLoadingResponses, hasMoreResponses]);
 
-  // Handle real-time response insertions
+  // Handle real-time response insertions -> Supabase Realtime
   const handleRealTimeInsert = (payload: any) => {
     const { new: newResponse } = payload;
     // Only add the response if it's for the current prompt
@@ -171,6 +173,7 @@ const PromptViewer = () => {
     const supabase = createClient();
     const channel = supabase.channel("responses");
 
+    // Connect to channel and listen to any event
     channel
       .on(
         "postgres_changes",
@@ -211,7 +214,7 @@ const PromptViewer = () => {
         </Button>
       </div>
 
-      {/* Prompt Card with enhanced visual hierarchy */}
+      {/* Prompt Card */}
       <Card className="border border-2 p-6 shadow-none bg-card/50 mb-8">
         <CardHeader className="px-0 pb-2">
           {/* Skeleton for loading prompt */}
@@ -227,7 +230,7 @@ const PromptViewer = () => {
                 </div>
               </CardTitle>
 
-              {/* Author & timestamp with smaller text */}
+              {/* Author & timestamp */}
               <div className="text-xs text-muted-foreground mt-1">
                 Posted by{" "}
                 <span className="font-medium">{promptData.author}</span> •{" "}
@@ -261,7 +264,7 @@ const PromptViewer = () => {
         </CardContent>
       </Card>
 
-      {/* Response Creator with clearer label */}
+      {/* Response Creator */}
       <div className="mt-8 mb-10 bg-background p-6 rounded-lg border-2 shadow-sm">
         <h2 className="text-2xl font-semibold mb-4">Add Your Response</h2>
         <ResponseCreator promptID={promptID as string} />

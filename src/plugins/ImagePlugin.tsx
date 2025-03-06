@@ -11,7 +11,7 @@ import React, { useRef, useState } from "react";
 import { ImagePlus } from "lucide-react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $createImageNode } from "./nodes/ImageNode";
-import { $insertNodes } from "lexical";
+import { $createParagraphNode, $createTextNode, $insertNodes } from "lexical";
 
 export default function ImagePlugin() {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,12 +28,16 @@ export default function ImagePlugin() {
 
     editor.update(() => {
       const node = $createImageNode({ src, altText: "Dummy text" });
-      $insertNodes([node]);
+      const extraNode = $createParagraphNode();
+      $insertNodes([node, extraNode]);
     });
     setFile(undefined);
     setURL("");
     setIsOpen(false);
   };
+
+
+  if (editor._editable === false) { return }
 
   return (
     <div className="flex items-center space-x-1 border-r mr-1">

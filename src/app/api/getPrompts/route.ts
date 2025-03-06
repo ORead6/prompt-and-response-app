@@ -50,6 +50,7 @@ export async function POST(req: NextRequest) {
     // Get Prompts from Supabase
     let data, error;
 
+    // If not searching categories get all the prompts relevant
     if (!body.categories) {
       const result = await supabase
         .from("prompts")
@@ -59,7 +60,9 @@ export async function POST(req: NextRequest) {
 
       data = result.data;
       error = result.error;
-    } else {
+    } 
+    // If searching categories get the prompts relevant to the categories
+    else {
       const result = await supabase
         .from("prompts")
         .select("*")

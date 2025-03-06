@@ -22,6 +22,7 @@ const CreateResponseButton = ({ currPromptId }: { currPromptId: string }) => {
         const isEmpty = editor.read(() => {
             const root = $getRoot();
             const firstChild = root.getFirstChild();
+            if (firstChild?.getTextContent() === 'image') {return false}
             return firstChild?.getTextContent() === '' && root.getChildrenSize() === 1;
         });
 

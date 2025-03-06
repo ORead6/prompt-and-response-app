@@ -44,7 +44,10 @@ const PromptPage = () => {
     setCategories(categories);
   };
 
+  // Fetch prompts from the server
   const fetchPrompts = async (options?: { forceFetch?: boolean }) => {
+    // If force fetch then forget about loading or has more as it is a fresh fetch
+    // Have to do this for category search and infinte loader to work together
     const forceFetch = options?.forceFetch ?? false;
     if (!forceFetch && (isLoading || !hasMore)) return;
 
@@ -69,6 +72,7 @@ const PromptPage = () => {
 
       console.log(reqBody);
 
+      // Call API
       const response = await fetch("/api/getPrompts", {
         method: "POST",
         body: JSON.stringify(reqBody),

@@ -10,7 +10,6 @@ import { CodeHighlightNode, CodeNode } from "@lexical/code";
 import { AutoLinkNode, LinkNode } from "@lexical/link";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import { $getRoot, $createParagraphNode, EditorState } from 'lexical';
@@ -20,6 +19,8 @@ import LoadState from './loadState';
 import { TRANSFORMERS } from '@lexical/markdown';
 import { myLexicalTheme } from '../themes/myLexicalTheme';
 import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
+import { ImageNode } from '@/plugins/nodes/ImageNode';
+import ImagePlugin from '@/plugins/ImagePlugin';
 
 // Custom plugin to initialize editor with content
 function InitialStatePlugin() {
@@ -55,7 +56,8 @@ const ResponseViewer = ({ responseContent }: { responseContent: string }) => {
             LinkNode,
             TableNode,
             TableRowNode,
-            TableCellNode
+            TableCellNode,
+            ImageNode
         ],
         theme: myLexicalTheme
     }
@@ -74,6 +76,7 @@ const ResponseViewer = ({ responseContent }: { responseContent: string }) => {
                 <HistoryPlugin />
                 <LinkPlugin />
                 <ListPlugin />
+                <ImagePlugin />
                 <TabIndentationPlugin />
                 <LoadState responseContent={responseContent} />
                 <InitialStatePlugin />

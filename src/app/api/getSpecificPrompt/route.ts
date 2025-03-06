@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Get Prompt from Supabase
+    // Get Prompt from Supabase using Prompt ID passed in req.body
     const { data, error } = await supabase
       .from("prompts")
       .select("*")

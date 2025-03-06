@@ -52,9 +52,11 @@ export default function LoginPage() {
 
   return (
     <div className="flex justify-center items-center min-h-screen px-4 py-8 bg-background">
+      {/* Theme Switch Button */}
       <div className="absolute top-4 right-4">
         <ThemeSwitch />
       </div>
+      {/* Login Card */}
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold">Login</CardTitle>
@@ -70,8 +72,10 @@ export default function LoginPage() {
             </div>
           )}
 
+          {/* Login Form */}
           <form onSubmit={handleLogin}>
             <div className="space-y-4">
+              {/* Email Input */}
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -84,6 +88,7 @@ export default function LoginPage() {
                 />
               </div>
 
+              {/* Password Input */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">Password</Label>
@@ -104,6 +109,7 @@ export default function LoginPage() {
                 />
               </div>
 
+              {/* Login Button */}
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? (
                   <div className="flex items-center justify-center">
@@ -115,6 +121,7 @@ export default function LoginPage() {
                 )}
               </Button>
 
+              {/* Register Redirect Button */}
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
                 <Link href="/register" className="text-primary hover:underline">

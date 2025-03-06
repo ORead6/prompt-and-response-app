@@ -9,18 +9,27 @@ const LoadState = ({ responseContent }: LoadStateProps) => {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
-    // Only try to load state if responseContent is a string and not empty
-    if (responseContent && typeof responseContent === 'string' && responseContent.trim() !== '') {
-      try {
-        const parsedContent = JSON.parse(responseContent);
-        const editorState = editor.parseEditorState(parsedContent);
-        editor.setEditorState(editorState);
-      } catch (error) {
-        console.error("Error parsing response content:", error);
-        // No need to set empty state here as InitialStatePlugin will handle fallback
-      }
+    if (
+      responseContent &&
+      typeof responseContent === "string" &&
+      responseContent.trim() !== ""
+    ) {
+      // Use a microtask to defer the state update
+      queueMicrotask(() => {
+        // Your update logic here
+        editor.update(() => {
+          try {
+            const parsedContent = JSON.parse(responseContent);
+            const editorState = editor.parseEditorState(parsedContent);
+            editor.setEditorState(editorState);
+          } catch (error) {
+            console.error("Error parsing response content:", error);
+            // No need to set empty state here as InitialStatePlugin will handle fallback
+          }
+        });
+      });
     }
-  }, [editor, responseContent]);
+  }, [responseContent, editor]);
 
   return null;
 };

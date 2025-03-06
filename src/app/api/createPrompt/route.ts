@@ -39,6 +39,7 @@ export async function POST(req: NextRequest) {
     // Create Supabase Client
     const supabase = await createClient();
 
+    // Authenticate User
     const { data, error: sessionError } = await supabase.auth.getUser();
 
     if (sessionError) {

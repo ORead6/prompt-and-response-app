@@ -73,9 +73,11 @@ export default function RegisterPage() {
 
   return (
     <div className="flex justify-center items-center min-h-screen px-4 py-8 bg-background">
+      {/* Theme Switch Button */}
       <div className="absolute top-4 right-4">
         <ThemeSwitch />
       </div>
+      {/* Register Card */}
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold">
@@ -93,6 +95,7 @@ export default function RegisterPage() {
 
           <form onSubmit={handleRegister}>
             <div className="space-y-4">
+              {/* Username Input */}
               <div className="space-y-2">
                 <Label htmlFor="username">Username</Label>
                 <Input
@@ -105,6 +108,7 @@ export default function RegisterPage() {
                 />
               </div>
 
+              {/* Email Input */}
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -117,6 +121,7 @@ export default function RegisterPage() {
                 />
               </div>
 
+              {/* Password 1 Input */}
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <Input
@@ -129,6 +134,7 @@ export default function RegisterPage() {
                 />
               </div>
 
+              {/* Password 2 Input */}
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword">Confirm Password</Label>
                 <Input
@@ -141,6 +147,7 @@ export default function RegisterPage() {
                 />
               </div>
 
+              {/* Create Account Button */}
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? (
                   <div className="flex items-center justify-center">
@@ -152,6 +159,7 @@ export default function RegisterPage() {
                 )}
               </Button>
 
+              {/* Redirect to Login Button */}
               <div className="text-center text-sm">
                 Already have an account?{" "}
                 <Link href="/login" className="text-primary hover:underline">
