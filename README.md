@@ -7,7 +7,7 @@ A collaborative writing platform for creating prompts, sharing ideas, and collab
 - **User Authentication:** Share creative writing prompts with the community
 - **Create Prompts:** Share creative writing prompts with the community
 - **Categorization:** Organize prompts with custom categories
-- **Rich Text Repsonse:** Respond to prompts with a powerful rich text editor
+- **Rich Text Response:** Respond to prompts with a powerful rich text editor
 - **Real-Time Updates:** See new responses as they are posted
 - **Infinite Scrolling:** Browse through prompts and responses with seamless loading
 - **Dark/Light Mode:** Choose your preferred theme
