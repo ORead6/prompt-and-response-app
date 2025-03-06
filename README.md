@@ -1,36 +1,160 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Prompt & Response App
+## Made by Owen Read
+A collaborative writing platform for creating prompts, sharing ideas, and collaborating with response in a rich text environment.
+[Use the App Now](https://bidscript-prompt.vercel.app/)
 
-## Getting Started
+## Features
+- **User Authentication:** Share creative writing prompts with the community
+- **Create Prompts:** Share creative writing prompts with the community
+- **Categorization:** Organize prompts with custom categories
+- **Rich Text Repsonse:** Respond to prompts with a powerful rich text editor
+- **Real-Time Updates:** See new responses as they are posted
+- **Infinite Scrolling:** Browse through prompts and responses with seamless loading
+- **Dark/Light Mode:** Choose your preferred theme
+- **Mobile Responsiveness:** Full functionality across devices
+- 
+## Technologies Used
+- **Frontend:** Next.js 14, React, Typescript
+- **Authentication & Database:** Supabase
+- **UI Components:** Shadcn/ui, Tailwind CSS
+- **Rich Text Editor:** Lexical
+- **Animations:** Framer Motion
+- **Styling:** Tailwind CSS with CSS Variables for theming
+- **State Management:** React hooks and Context
 
-First, run the development server:
-
-```bash
+## Installation
+1. Clone the repository:
+```
+git clone https://github.com/yourusername/prompt-and-response.git
+cd prompt-and-response
+```
+2. Install Dependencies:
+```
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+3. Set up environment variables: Create a ```.env.local``` in the root directory with the following variables:
+```
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+4. Set up Supabase:
+    -  Create a new project on supabase
+    -  Set up the following tables in your supabase database:
+        - ```Prompts``` (id, title, prompt, author, created_at, categories)
+        - ```Responses``` (id, prompt_id, content, author, created_at)
+        - ```Profiles``` (id, username, email, created_at)
+    - Set up authentication in supabase
+5. Run the development server:
+```
 npm run dev
 # or
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
+```
+6. Open http://localhost:3000
+
+## Database Schema
+### Profiles Table
+- ```id```: UUID (references auth.users.id)
+- ```username```: String
+- ```email```: String
+- ```created_at```: Timestamp
+
+### Prompts Table
+- ```id```: UUID (primary key)
+- ```title```: String
+- ```prompt```: Text
+- ```author```: String (references profiles.username)
+- ```created_at```: Timestamp
+- ```categories```: String[] (array)
+
+### Responses Table
+- ```id```: UUID (primary key)
+- ```prompt_id```: UUID (references prompts.id)
+- ```content```: JSON (for rich text content)
+- ```author```: String (references profiles.username)
+- ```created_at```: Timestamp
+
+## User Guide
+### Authentication
+- Register using the sign-up page
+- Log in with your credentials
+- Authenticated users can create prompts and responses
+
+### Creating Prompts
+1. Navigate to the "Prompts" page
+2. Click the "Create Prompt" button
+3. Fill in the title and prompt content
+4. Add categories (optional)
+5. Submit your prompt
+
+### Browsing and Filtering Prompts
+- All prompts are displayed on the main prompts page
+- Filter prompts by categories using the search bar
+- Click on a prompt to view its details and responses
+
+### Creating Responses
+1. Navigate to a specific prompt
+2. Use the rich text editor to craft your response
+3. Format text using the toolbar (bold, italic, lists, headings, etc.)
+4. Submit your response
+
+### Rich Text Editor Features
+- Text formatting (bold, italic, underline, strikethrough)
+- Headings (H1, H2, H3)
+- Lists (ordered and unordered)
+- Tables
+- Indentation
+- Images
+- Undo/redo
+
+## Project Structure
+```
+├── public/               # Static files
+├── src/
+│   ├── app/              # Next.js app router
+│   │   ├── (auth)/       # Protected routes
+│   │   ├── api/          # API routes
+│   │   ├── login/        # Login page
+│   │   ├── register/     # Registration page
+│   ├── components/       # React components
+│   │   ├── ui/           # UI components from shadcn/ui
+│   ├── lib/              # Utility libraries
+│   ├── plugins/          # Lexical editor plugins
+│   ├── themes/           # Theming
+│   ├── utils/            # Utility functions
+│       ├── supabase/     # Supabase client utilities
+├── middleware.ts         # Next.js middleware
+├── next.config.ts        # Next.js configuration
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Development
+### Custom UI Components
+The project uses shadcn/ui components which can be customized in the ```src/components/ui``` directory.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Theme Customization
+Modify the theme variables in ```src/app/globals.css``` to change the application's appearance.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Editor Customization
+The Lexical editor can be customized by modifying the plugins in the ```src/plugins``` directory.
 
-## Learn More
+## Acknowledgements
+Created by Owen Read.
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+
+
+
+
+
