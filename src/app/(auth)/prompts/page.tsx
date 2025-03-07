@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import NoPromptsCard from "@/components/EmptyPromptPlaceholder";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { Plus } from "lucide-react";
 import CategoryEntryBar from "@/components/CategoryEntryBar";
@@ -156,7 +156,7 @@ const PromptPage = () => {
           <h1 className="text-2xl font-bold">Prompts</h1>
 
           <Button
-            onClick={() => router.push("/create-prompt")}
+            onClick={() => redirect("/create-prompt")}
             className="bg-primary hover:bg-primary/90 font-medium px-6"
             size="lg"
           >
@@ -187,7 +187,7 @@ const PromptPage = () => {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.2, delay: index * 0.05 }}
                   className="rounded-lg border p-6 hover:shadow-md transition-all cursor-pointer hover:border-primary/30"
-                  onClick={() => router.push(`/prompts/${prompt.id}`)}
+                  onClick={() => redirect(`/prompts/${prompt.id}`)}
                 >
                   <h3 className="text-xl font-semibold text-foreground">
                     {prompt.title}

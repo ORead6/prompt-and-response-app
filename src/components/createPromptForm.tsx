@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import { Send, HelpCircle, X } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -63,7 +63,7 @@ const CreatePromptForm = ({
 
       if (data.success) {
         // Redirect to prompts page after successful creation
-        router.push(`/prompts/${data.data.id}`);
+        redirect(`/prompts/${data.data.id}`);
       } else {
         toast("Failed to Create Prompt");
       }

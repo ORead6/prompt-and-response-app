@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
 import { ArrowLeft, MessageSquare, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { formatDistanceToNow } from "date-fns";
@@ -205,7 +205,7 @@ const PromptViewer = () => {
       <div className="flex items-center mb-6">
         {/* Back Button */}
         <Button
-          onClick={() => router.push("/prompts")}
+          onClick={() => redirect("/prompts")}
           variant="outline"
           className="flex items-center gap-2"
         >

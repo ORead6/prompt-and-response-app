@@ -3,7 +3,7 @@
 import CreatePromptForm from "@/components/createPromptForm";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 
 const CreatePromptPage = () => {
   const router = useRouter();
@@ -16,7 +16,7 @@ const CreatePromptPage = () => {
         <div className="flex items-center mb-6">
           <div className="flex-shrink-0">
             <Button
-              onClick={() => router.push("/prompts")}
+              onClick={() => redirect("/prompts")}
               className="bg-primary hover:bg-primary/90"
             >
               <ArrowLeft className="mr-2" />
