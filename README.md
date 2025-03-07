@@ -178,6 +178,9 @@ Modify the theme variables in ```src/app/globals.css``` to change the applicatio
 ### Editor Customization
 The Lexical editor can be customized by modifying the plugins in the ```src/plugins``` directory.
 
+# How I'd Change my approach
+- Create and add test suites as Each component/page/api is built to make building the test suites easier, as doing at the end of the full stack project was a hassle.
+
 ## Acknowledgements
 Created by Owen Read.
 
