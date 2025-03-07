@@ -1,4 +1,6 @@
 const CategoryDisplayBar = ({categories} : {categories: string[]}) => {
+  if (!categories) return null;
+
   return (
     <div className="flex flex-wrap gap-2 mt-2 mb-2">
       {categories.map((category, idx) => (

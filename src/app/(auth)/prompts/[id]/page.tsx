@@ -275,7 +275,6 @@ const PromptViewer = () => {
         <h2 className="text-2xl font-semibold mb-6 border-b-2 pb-2">
           Community Responses
         </h2>
-
         {responses.length === 0 && !isLoadingResponses ? (
           <div className="rounded-lg border-2 border-dashed p-8 flex flex-col items-center justify-center gap-4 bg-muted/30">
             <div className="rounded-full bg-primary/10 p-3">
