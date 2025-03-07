@@ -3,12 +3,11 @@
 import React from "react";
 import { motion } from "framer-motion";
 import ThemeSwitch from "@/components/themeSwitch";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 const LandingPage: React.FC = () => {
   // Setup router for navigation
-  const router = useRouter();
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white dark:bg-gray-900 transition-colors duration-300">
@@ -53,7 +52,7 @@ const LandingPage: React.FC = () => {
           >
             <Button
               className="px-6 py-3 text-lg"
-              onClick={() => router.push("/prompts")}
+              onClick={() => redirect("/prompts")}
             >
               Go to Main App
             </Button>
