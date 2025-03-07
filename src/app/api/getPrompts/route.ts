@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     const body: RequestData = await req.json();
 
     // Validate the request data
-    if (!body.page === undefined || !body.page_size === undefined) {
+    if (body.page === undefined || body.page_size === undefined) {
       return NextResponse.json(
         { success: false, error: "Page and Page Size is required" },
         { status: 400 }

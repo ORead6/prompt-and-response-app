@@ -1,5 +1,5 @@
 import type { Config } from 'jest'
-import nextJest from 'next/jest.js'
+const nextJest = require('next/jest')
  
 const createJestConfig = nextJest({
   // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
@@ -13,7 +13,7 @@ const config: Config = {
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/',
+    '^@/(.*)$': '<rootDir>/$1',
   },
 }
  
