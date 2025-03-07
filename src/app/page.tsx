@@ -52,7 +52,7 @@ const LandingPage: React.FC = () => {
           >
             <Button
               className="px-6 py-3 text-lg"
-              onClick={() => redirect("/prompts")}
+              onClick={() => redirect("/login")}
             >
               Go to Main App
             </Button>
