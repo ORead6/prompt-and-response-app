@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import ThemeSwitch from "@/components/themeSwitch";
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import { Menu, X, Home, ListPlus, FileEdit, LogOut } from "lucide-react";
 
 export function NavBar() {
@@ -17,7 +17,7 @@ export function NavBar() {
   const handleLogout = async () => {
     const supabase = await createClient();
     await supabase.auth.signOut();
-    router.push("/");
+    redirect("/")
   };
 
   // Close mobile sidebar when navigating
