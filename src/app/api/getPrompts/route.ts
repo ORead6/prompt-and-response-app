@@ -63,6 +63,9 @@ export async function POST(req: NextRequest) {
     } 
     // If searching categories get the prompts relevant to the categories
     else {
+      // change categories to lowercase
+      body.categories = body.categories.map((category) => category.toLowerCase());
+
       const result = await supabase
         .from("prompts")
         .select("*")
